@@ -1,0 +1,57 @@
+# 版本控制
+.git
+.gitignore
+.github
+
+# 构建输出和缓存
+.next
+out
+dist
+build
+coverage
+.swc
+
+# 依赖目录
+node_modules
+
+# 环境变量文件（避免泄露敏感信息）
+.env*
+!.env.example
+
+# 开发工具和配置
+.vscode
+.idea
+*.sublime*
+.DS_Store
+
+# 日志文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 临时文件
+*.log
+*.bak
+*.tmp
+
+# 测试文件
+__tests__
+*.test.js
+*.test.ts
+*.test.tsx
+*.spec.js
+*.spec.ts
+*.spec.tsx
+
+# 文档和不需要的资源
+README.md
+CHANGELOG.md
+LICENSE
+CONTRIBUTING.md
+docs
+
+# Docker相关
+Dockerfile*
+docker-compose*
+.dockerignore
