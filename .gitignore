@@ -1,0 +1,25 @@
+# === 通用忽略 ===
+.DS_Store
+*.pem
+*.log
+.env
+.env.*
+*.tsbuildinfo
+*.swp
+
+# === Node 项目 ===
+node_modules/
+dist/
+build/
+coverage/
+
+# === Next.js 特有 ===
+.next/
+out/
+next-env.d.ts
+
+# === Prisma ===
+/src/generated/prisma
+
+# === Docker ===
+docker/elk/

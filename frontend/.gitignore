@@ -1,0 +1,52 @@
+# === Node Modules ===
+node_modules/
+
+# === Next.js Build Output ===
+.next/
+out/
+build/
+
+# === TypeScript ===
+*.tsbuildinfo
+next-env.d.ts
+
+# === Environment Variables ===
+.env
+.env.*  # 忽略所有环境变量文件（包括 .env.local、.env.production 等）
+
+# === Logs ===
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# === System Files ===
+.DS_Store
+Thumbs.db
+
+# === Editor Configs ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Testing Output ===
+coverage/
+.nyc_output/
+
+# === Deployment Configs ===
+.vercel/
+
+# === Miscellaneous ===
+*.pem
+*.tgz
+
+# === Yarn & pnpm (如果只使用 npm，这部分可留作预防团队误提交) ===
+.pnp/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
