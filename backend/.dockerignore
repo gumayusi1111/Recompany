@@ -1,38 +1,38 @@
-# u7248u672cu63a7u5236
+# 版本控制
 .git
 .gitignore
 .github
 
-# u6784u5efau8f93u51fau548cu7f13u5b58
+# 构建输出和缓存
 dist
 build
 coverage
 
-# u4f9du8d56u76eeu5f55
+# 依赖目录
 node_modules
 
-# u73afu5883u53d8u91cfu6587u4ef6uff08u907fu514du6cc4u9732u654fu611fu4fe1u606fuff09
+# 环境变量文件（避免泄露敏感信息）
 .env*
 !.env.example
 
-# u5f00u53d1u5de5u5177u548cu914du7f6e
+# 开发工具和配置
 .vscode
 .idea
 *.sublime*
 .DS_Store
 
-# u65e5u5fd7u6587u4ef6
+# 日志文件
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 *.log
 
-# u4e34u65f6u6587u4ef6
+# 临时文件
 *.bak
 *.tmp
 
-# u6d4bu8bd5u6587u4ef6
+# 测试文件
 __tests__
 tests
 *.test.js
@@ -40,23 +40,23 @@ tests
 *.spec.js
 *.spec.ts
 
-# u6587u6863u548cu4e0du9700u8981u7684u8d44u6e90
+# 文档和不需要的资源
 README.md
 CHANGELOG.md
 LICENSE
 CONTRIBUTING.md
 docs
 
-# Dockeru76f8u5173
+# Docker相关
 Dockerfile*
 docker-compose*
 .dockerignore
 
-# Prismau76f8u5173
+# Prisma相关
 prisma/migrations
 
-# u4ee3u7801u7248u672cu63a7u5236u548cu7ba1u7406u6587u4ef6
-tsconfig.json
+# 代码版本控制和管理文件
+# 注意：tsconfig.json 是构建必需的，不要排除
 .prettierrc
 .eslintrc
 .eslintignore
