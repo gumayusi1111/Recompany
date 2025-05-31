@@ -1,24 +1,73 @@
 import express from 'express'
+import fs from 'fs'
+import path from 'path'
 
-import homeRouter from './modules/home/route'
-import aboutRouter from './modules/about/route'
-import contactRouter from './modules/contact/route'
-// 使用新的模块化结构
-import productsRouter from './modules/products'
-import projectsRouter from './modules/projects/route'
-import materialsRouter from './modules/materials/route'
-import testimonialsRouter from './modules/testimonials/route'
-import newsRouter from './modules/news/route'
+/**
+ * 主路由文件 - 使用更灵活的路由注册方式
+ * 以下是路由配置，使用对象结构记录每个模块的路由配置
+ */
 
 const router = express.Router()
 
-router.use('/api/home', homeRouter)
-router.use('/api/about', aboutRouter)
-router.use('/api/contact', contactRouter)
-router.use('/api/products', productsRouter)
-router.use('/api/projects', projectsRouter)
-router.use('/api/materials', materialsRouter)
-router.use('/api/testimonials', testimonialsRouter)
-router.use('/api/news', newsRouter)
+// 定义模块配置
+const moduleConfigs = [
+  {
+    path: '/api/home',
+    modulePath: './modules/home',
+    isModularized: true  // 已完成模块化重构
+  },
+  {
+    path: '/api/about',
+    modulePath: './modules/about',
+    isModularized: true  // 已完成模块化重构
+  },
+  {
+    path: '/api/contact',
+    modulePath: './modules/contact',
+    isModularized: true  // 已完成模块化重构
+  },
+  {
+    path: '/api/products',
+    modulePath: './modules/products',
+    isModularized: true  // 已完成模块化重构
+  },
+  {
+    path: '/api/projects',
+    modulePath: './modules/projects',
+    isModularized: true  // 已完成模块化重构
+  },
+  {
+    path: '/api/materials',
+    modulePath: './modules/materials',
+    isModularized: true  // 已完成模块化重构
+  },
+  {
+    path: '/api/testimonials',
+    modulePath: './modules/testimonials',
+    isModularized: true  // 已完成模块化重构
+  },
+  {
+    path: '/api/news',
+    modulePath: './modules/news',
+    isModularized: true  // 已完成模块化重构
+  }
+]
+
+// 动态注册路由
+moduleConfigs.forEach(config => {
+  try {
+    // 动态导入路由模块
+    const moduleRouter = require(config.modulePath).default
+    if (moduleRouter) {
+      // 注册路由
+      router.use(config.path, moduleRouter)
+      console.log(`成功注册路由: ${config.path} -> ${config.modulePath}${config.isModularized ? ' (模块化)' : ''}`)
+    } else {
+      console.warn(`警告: 模块 ${config.modulePath} 没有默认导出路由`)
+    }
+  } catch (error) {
+    console.error(`错误: 无法加载路由模块 ${config.modulePath}`, error)
+  }
+})
 
 export default router
