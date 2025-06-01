@@ -1,0 +1,56 @@
+@startuml 普通成员
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor White
+  BorderColor DarkGray
+}
+
+actor "访客（普通用户）" as User
+
+rectangle "官网页面" {
+  usecase "访问首页" as HomePage
+  usecase "查看公司介绍" as AboutPage
+  usecase "浏览产品中心" as ProductPage
+  usecase "查看工程案例" as ProjectPage
+  usecase "阅读材料科普" as MaterialPage
+  usecase "查看客户好评" as ReviewPage
+  usecase "浏览新闻动态" as NewsPage
+  usecase "访问联系我们" as ContactPage
+  
+  ' 首页操作
+  HomePage --> (跳转联系我们) : 包含
+  
+  ' 工程案例操作
+  ProjectPage --> (筛选工程案例)
+  ProjectPage --> (查看案例详情)
+  
+  ' 产品中心操作
+  ProductPage --> (查看产品详情)
+  (查看产品详情) --> (获取报价)
+  
+  ' 新闻动态操作
+  NewsPage --> (阅读文章)
+  NewsPage --> (订阅资讯) : 输入邮箱订阅
+  
+  ' 材料科普操作
+  MaterialPage --> (跳转联系我们)
+  
+  ' 客户好评操作
+  ReviewPage --> (提交反馈) : 跳转联系我们
+  
+  ' 联系我们操作
+  ContactPage --> (填写联系表单)
+  ContactPage --> (电话拨打)
+}
+
+' 用户与主页面关联
+User --> HomePage
+User --> AboutPage
+User --> ProductPage
+User --> ProjectPage
+User --> MaterialPage
+User --> ReviewPage
+User --> NewsPage
+User --> ContactPage
+@enduml

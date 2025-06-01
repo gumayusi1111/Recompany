@@ -1,0 +1,60 @@
+@startuml news_detail
+!theme plain
+top to bottom direction
+
+skinparam nodesep 10
+skinparam ranksep 20
+
+package "新闻动态详情页" {
+  [导航栏] as header
+  
+  package "页面内容" {
+    [面包屑导航] as breadcrumb #lightgreen
+    [Banner（文章配图）] as banner #lightblue
+    
+    package "文章信息区" as article_info {
+      [文章标题] as title
+      [副标题] as subtitle
+      [元信息] as meta
+      
+      title --> subtitle
+      subtitle --> meta
+    }
+    
+    note right of meta
+      包含：发布日期、作者、
+      阅读量、分类标签等
+    end note
+    
+    ' 修正的正文区域
+    [段落1] as p1
+    [段落2] as p2
+    [图片1] as img1
+    [段落3] as p3
+    [引用] as quote
+    [段落4] as p4
+    
+    [返回新闻列表按钮] as back_button #pink
+    
+    [页脚] as footer
+  }
+
+  ' 页面结构连接
+  header --> breadcrumb
+  breadcrumb --> banner
+  banner --> article_info
+  article_info --> p1
+  p1 --> p2
+  p2 --> img1
+  img1 --> p3
+  p3 --> quote
+  quote --> p4
+  p4 --> back_button
+  back_button --> footer
+}
+
+' 引用公共组件
+header .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

@@ -1,0 +1,70 @@
+@startuml engineering_cases
+!theme plain
+top to bottom direction
+
+skinparam nodesep 10
+skinparam ranksep 20
+
+package "工程案例页面" {
+  [导航栏] as header
+  [面包屑导航] as breadcrumb #lightgreen
+  [Banner] as banner
+  
+  package "筛选区" as filters {
+    [项目搜索] as search #lightblue
+    [项目分类] as categories #lightblue
+    
+    ' 并列关系
+    search -[hidden]-> categories
+  }
+  
+  package "案例展示" as cases {
+    ' 第一行三个案例卡片
+    [案例卡片1] as case1
+    [案例卡片2] as case2
+    [案例卡片3] as case3
+    
+    ' 第二行三个案例卡片
+    [案例卡片4] as case4
+    [案例卡片5] as case5
+    [案例卡片6] as case6
+    
+    ' 水平排列
+    case1 -right-> case2
+    case2 -right-> case3
+    case1 --> case4
+    case2 --> case5
+    case3 --> case6
+    case4 -right-> case5
+    case5 -right-> case6
+  }
+  
+  package "翻页控制" as pagination {
+    [上一页] as prev
+    [1] as page1
+    [2] as page2
+    [3] as page3
+    [下一页] as next
+    
+    prev -right-> page1
+    page1 -right-> page2
+    page2 -right-> page3
+    page3 -right-> next
+  }
+  
+  [页脚] as footer
+  
+  ' 页面结构连接
+  header --> breadcrumb
+  breadcrumb --> banner
+  banner --> filters
+  filters --> cases
+  cases --> pagination
+  pagination --> footer
+}
+
+' 引用公共组件
+header .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

@@ -1,0 +1,77 @@
+@startuml news
+!theme plain
+top to bottom direction
+
+skinparam nodesep 10
+skinparam ranksep 30
+
+' 注释掉可能导致问题的include指令
+' !include ../公共/header.puml
+' !include ../公共/footer.puml
+
+package "新闻动态" {
+  [导航栏] as navbar
+  [面包屑导航栏] as breadcrumb #lightgreen
+  [Banner] as banner
+  [新闻主标题] as title #lightblue
+  
+  ' 文章类型筛选按钮
+  package "文章类型筛选" as filters {
+    note right: 按文章类型筛选新闻内容
+    [类型1] as type1Btn
+    [类型2] as type2Btn
+    [类型3] as type3Btn
+    [类型4] as type4Btn
+    [类型5] as type5Btn
+    
+    ' 水平排列的按钮
+    type1Btn -right-> type2Btn
+    type2Btn -right-> type3Btn
+    type3Btn -right-> type4Btn
+    type4Btn -right-> type5Btn
+  }
+  
+  ' 新闻列表 - 三行，每行两个
+  package "新闻列表" as newsList {
+    package "第一行" as row1 {
+      [新闻卡片1] as news1
+      [新闻卡片2] as news2
+      news1 -right-> news2
+    }
+    
+    package "第二行" as row2 {
+      [新闻卡片3] as news3
+      [新闻卡片4] as news4
+      news3 -right-> news4
+    }
+    
+    package "第三行" as row3 {
+      [新闻卡片5] as news5
+      [新闻卡片6] as news6
+      news5 -right-> news6
+    }
+    
+    row1 --> row2
+    row2 --> row3
+  }
+  
+  [分页控件] as pagination
+  [订阅CTA] as subscribeCTA
+  [页脚] as footer
+
+  ' 连接关系
+  navbar --> breadcrumb
+  breadcrumb --> banner
+  banner --> title
+  title --> filters
+  filters --> newsList
+  newsList --> pagination
+  pagination --> subscribeCTA
+  subscribeCTA --> footer
+}
+
+' 引用公共组件
+navbar .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

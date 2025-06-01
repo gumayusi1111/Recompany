@@ -1,0 +1,79 @@
+@startuml home
+!theme plain
+top to bottom direction
+
+skinparam nodesep 10
+skinparam ranksep 30
+
+' 注释掉可能导致问题的include指令
+' !include ../公共/header.puml
+' !include ../公共/footer.puml
+
+package "首页" {
+  [导航栏] as navbar
+  [面包屑导航栏] as breadcrumb #lightgreen
+  [Banner] as banner
+  [主标题] as hero #lightblue
+  
+  ' 添加固定侧边栏导航（页面内跳转菜单）
+  [锚点菜单] as anchorMenu #pink
+  
+  package "公司介绍" as company {
+    [文字介绍] as introText
+    [公司图片] as introImage
+    introText -right-> introImage
+  }
+  
+  package "产品中心" as products {
+    [产品卡片1] as product1
+    [产品卡片2] as product2
+    [产品卡片3] as product3
+    [查看更多产品] as moreProducts
+    
+    ' 水平排列的卡片
+    product1 -right-> product2
+    product2 -right-> product3
+    ' 查看更多按钮在下方
+    product1 --> moreProducts
+    product2 --> moreProducts
+    product3 --> moreProducts
+  }
+  
+  package "工程案例" as cases {
+    [案例卡片1] as case1
+    [案例卡片2] as case2
+    [查看更多案例] as moreCases
+    
+    ' 水平排列的卡片
+    case1 -right-> case2
+    ' 查看更多按钮在下方
+    case1 --> moreCases
+    case2 --> moreCases
+  }
+  
+  [CTA模块] as cta
+  [页脚] as footer
+
+  ' 调整连接关系
+  navbar --> breadcrumb
+  breadcrumb --> banner
+  banner --> hero
+  hero --> company
+  company --> products
+  products --> cases
+  cases --> cta
+  cta --> footer
+  
+  ' 修复锚点菜单连接（使用已定义的别名）
+  anchorMenu -right-> hero
+  anchorMenu -right-> company
+  anchorMenu -right-> products
+  anchorMenu -right-> cases
+  anchorMenu -right-> cta
+}
+
+' 引用公共组件（作为抽象表示）
+navbar .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

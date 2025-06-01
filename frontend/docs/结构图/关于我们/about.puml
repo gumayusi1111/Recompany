@@ -1,0 +1,90 @@
+@startuml about
+!theme plain
+
+' 使用全局方向设置
+left to right direction
+
+skinparam nodesep 10
+skinparam ranksep 30
+
+package "页面结构" {
+  package "主要内容区" as main_content {
+    [导航栏] as navbar
+    [面包屑导航栏] as breadcrumb #lightgreen
+    [Banner] as banner
+    [SEO H1标题] as seoh1 #lightblue
+    [公司简介] as intro
+    
+    package "核心优势" as strengths {
+      [优势1] as s1
+      [优势2] as s2
+      [优势3] as s3
+      [优势4] as s4
+      [优势5] as s5
+      [优势6] as s6
+    }
+    
+    package "业务范围" as services {
+      [业务1] as sv1
+      [业务2] as sv2
+      [业务3] as sv3
+      [业务4] as sv4
+      [业务5] as sv5
+      [业务6] as sv6
+    }
+    
+    [页脚] as footer
+    
+    ' 内容区垂直关系
+    navbar --> breadcrumb
+    breadcrumb --> banner
+    banner --> seoh1
+    seoh1 --> intro
+    intro --> strengths
+    strengths --> services
+    services --> footer
+    
+    ' 核心优势内部布局
+    s1 -right-> s2
+    s2 -right-> s3
+    s1 --> s4
+    s2 --> s5
+    s3 --> s6
+    s4 -right-> s5
+    s5 -right-> s6
+    
+    ' 业务范围内部布局
+    sv1 -right-> sv2
+    sv2 -right-> sv3
+    sv1 --> sv4
+    sv2 --> sv5
+    sv3 --> sv6
+    sv4 -right-> sv5
+    sv5 -right-> sv6
+  }
+
+  ' 侧边梯子导航
+  package "侧边梯子导航" as sidebar {
+    [公司简介] as nav_intro
+    [核心优势] as nav_strengths
+    [业务范围] as nav_services
+    [联系我们] as nav_contact
+    
+    ' 垂直排列
+    nav_intro --> nav_strengths
+    nav_strengths --> nav_services
+    nav_services --> nav_contact
+  }
+}
+
+' 建立锚点跳转关系
+nav_intro .-> intro : 点击跳转
+nav_strengths .-> strengths : 点击跳转
+nav_services .-> services : 点击跳转
+nav_contact .-> footer : 点击跳转
+
+' 公共组件引用
+navbar .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

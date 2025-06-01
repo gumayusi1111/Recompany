@@ -1,0 +1,75 @@
+@startuml customer_reviews
+!theme plain
+top to bottom direction
+
+skinparam nodesep 10
+skinparam ranksep 20
+
+package "客户好评页面" {
+  [导航栏] as header
+  
+  package "内容容器" {
+    [面包屑导航] as breadcrumb #lightgreen
+    [Banner] as banner
+    
+    package "客户评价模块" as reviews {
+      [评价标题] as reviews_title #lightblue
+      
+      package "评价卡片区" as cards {
+        ' 第一行三个评价卡片
+        [卡片1] as card1
+        [卡片2] as card2
+        [卡片3] as card3
+        
+        ' 第二行三个评价卡片
+        [卡片4] as card4
+        [卡片5] as card5
+        [卡片6] as card6
+        
+        ' 水平排列
+        card1 -right-> card2
+        card2 -right-> card3
+        
+        card4 -right-> card5
+        card5 -right-> card6
+        
+        ' 垂直关系
+        card1 --> card4
+        card2 --> card5
+        card3 --> card6
+      }
+      
+      reviews_title --> cards
+    }
+    
+    package "感谢信模块" as testimonials {
+      [感谢信标题] as testimonials_title #lightblue
+      
+      ' 三行感谢信
+      [感谢信1] as test1
+      [感谢信2] as test2
+      [感谢信3] as test3
+      
+      testimonials_title --> test1
+      test1 --> test2
+      test2 --> test3
+    }
+    
+    [CTA行动召唤] as cta #pink
+    [页脚] as footer
+  }
+
+  ' 正确的页面结构连接
+  header --> breadcrumb
+  breadcrumb --> banner
+  banner --> reviews
+  reviews --> testimonials
+  testimonials --> cta
+  cta --> footer
+}
+
+' 引用公共组件
+header .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

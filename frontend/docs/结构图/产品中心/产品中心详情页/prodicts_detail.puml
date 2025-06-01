@@ -1,0 +1,121 @@
+@startuml product-detail
+!theme plain
+top to bottom direction
+left to right direction
+
+skinparam nodesep 10
+skinparam ranksep 30
+
+' 注释掉可能导致问题的include指令
+' !include ../公共/header.puml
+' !include ../公共/footer.puml
+
+package "产品详情页" {
+  [导航栏] as navbar
+  [返回列表按钮] as backButton #lightgray
+  
+  ' 侧边栏锚点菜单 - 修正为单独列出
+  [侧边栏锚点菜单] as anchorMenu #pink
+  [产品简介锚点] as anchorIntro
+  [技术参数锚点] as anchorSpecs
+  [产品优势锚点] as anchorAdv
+  [常见问题锚点] as anchorFaq
+  [服务流程锚点] as anchorProcess
+  [产品详情锚点] as anchorDetails
+  [获取报价锚点] as anchorQuote
+  
+  anchorMenu .down.> anchorIntro
+  anchorIntro .down.> anchorSpecs
+  anchorSpecs .down.> anchorAdv
+  anchorAdv .down.> anchorFaq
+  anchorFaq .down.> anchorProcess
+  anchorProcess .down.> anchorDetails
+  anchorDetails .down.> anchorQuote
+  
+  ' 主内容区
+  package "主内容区" {
+    ' 产品简介模块
+    package "产品简介" as intro {
+      [产品轮播图] as carousel
+      [产品简介文本] as introText
+      
+      carousel -right-> introText
+    }
+    
+    ' 技术参数模块
+    package "技术参数" as specs {
+      [参数表] as specTable
+    }
+    
+    ' 产品优势模块
+    package "产品优势" as advantages {
+      [优势卡片1] as adv1
+      [优势卡片2] as adv2
+      [优势卡片3] as adv3
+      [优势卡片4] as adv4
+      
+      adv1 -right-> adv2
+      adv2 -right-> adv3
+      adv3 -right-> adv4
+    }
+    
+    ' 常见问题模块
+    package "常见问题" as faq {
+      [问题1] as q1
+      [问题2] as q2
+      [问题3] as q3
+    }
+    
+    ' 服务流程模块
+    package "服务流程" as process {
+      [流程步骤1] as step1
+      [流程步骤2] as step2
+      [流程步骤3] as step3
+      [流程步骤4] as step4
+      [流程步骤5] as step5
+      [流程步骤6] as step6
+      
+      step1 -right-> step2
+      step2 -right-> step3
+      step3 -right-> step4
+      step4 -right-> step5
+      step5 -right-> step6
+    }
+    
+    ' 产品详情模块
+    [产品详情富文本] as details
+    
+    ' CTA报价模块
+    [报价表单] as quoteForm
+  }
+  
+  [页脚] as footer
+
+  ' 连接关系
+  navbar --> backButton
+  backButton --> intro
+  
+  ' 主内容区垂直连接
+  intro --> specs
+  specs --> advantages
+  advantages --> faq
+  faq --> process
+  process --> details
+  details --> quoteForm
+  quoteForm --> footer
+  
+  ' 侧边栏连接到主内容区
+  anchorIntro -right-> intro
+  anchorSpecs -right-> specs
+  anchorAdv -right-> advantages
+  anchorFaq -right-> faq
+  anchorProcess -right-> process
+  anchorDetails -right-> details
+  anchorQuote -right-> quoteForm
+}
+
+' 引用公共组件
+navbar .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

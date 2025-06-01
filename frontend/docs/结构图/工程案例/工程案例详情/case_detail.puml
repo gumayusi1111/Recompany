@@ -1,0 +1,131 @@
+@startuml project_detail
+!theme plain
+top to bottom direction
+
+skinparam nodesep 10
+skinparam ranksep 20
+
+package "工程案例详情页" {
+  [导航栏] as header
+  
+  package "页面内容" {
+    [面包屑导航] as breadcrumb #lightgreen
+    [返回项目列表按钮] as back_button #pink
+    
+    ' 标题区域
+    [项目标题] as title #lightblue
+    
+    ' 轮播图区域 - 修正为水平排列的缩略图
+    package "项目照片轮播图" as carousel {
+      [主图] as main_image
+      package "缩略图" as thumbs {
+        [缩略图1] as thumb1
+        [缩略图2] as thumb2
+        [缩略图3] as thumb3
+        [缩略图4] as thumb4
+        
+        ' 水平排列的缩略图
+        thumb1 -right-> thumb2
+        thumb2 -right-> thumb3
+        thumb3 -right-> thumb4
+      }
+      
+      ' 主图与缩略图的连接
+      main_image --> thumbs
+    }
+    
+    ' 项目信息区域
+    package "项目信息" as info {
+      [客户] as client
+      [项目面积] as area
+      [团队规模] as team_size
+      [发布时间] as publish_date
+      
+      client --> area
+      area --> team_size
+      team_size --> publish_date
+      
+      note right of client
+        **客户**
+        温州市瓯海区城市建设投资集团有限公司
+      end note
+      
+      note right of area
+        **项目面积**
+        300㎡
+      end note
+      
+      note right of team_size
+        **团队规模**
+        8人
+      end note
+      
+      note right of publish_date
+        **发布时间**
+        2025/4/10
+      end note
+    }
+    
+    ' 技术特点与标签合并区域
+    package "技术特点与标签" as tech_tags {
+      ' 技术特点区域
+      [创新技术1] as tech1
+      [创新技术2] as tech2
+      [创新技术3] as tech3
+      
+      ' 项目标签区域
+      [标签1] as tag1
+      [标签2] as tag2
+      [标签3] as tag3
+      
+      ' 技术特点内部连接
+      tech1 --> tech2
+      tech2 --> tech3
+      
+      ' 标签内部连接
+      tag1 -right-> tag2
+      tag2 -right-> tag3
+      
+      ' 技术特点与标签的连接
+      tech3 --> tag1
+    }
+    
+    ' 合并项目概述与成果模块
+    package "项目概述与成果" as overview_results {
+      [概述与成果标题] as or_title #lightblue
+      [项目概述] as overview
+      [项目成果] as results
+      
+      or_title --> overview
+      overview --> results
+      
+      ' 添加内容注释
+      note right of overview
+        **项目概述**
+        详细项目说明...
+      end note
+      
+      note right of results
+        **项目成果**
+        项目成果内容...
+      end note
+    }
+    
+    [页脚] as footer
+  }
+
+  ' 页面结构连接
+  header --> breadcrumb
+  breadcrumb --> back_button
+  back_button --> title
+  title --> carousel
+  carousel --> info
+  info --> tech_tags
+  tech_tags --> overview_results
+  overview_results --> footer
+}
+
+' 引用公共组件
+header .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+@enduml

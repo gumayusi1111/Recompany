@@ -1,0 +1,78 @@
+@startuml 管理员
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor White
+  BorderColor DarkGray
+}
+
+actor "管理员" as Admin
+
+rectangle "后台系统" {
+  usecase "登录系统" as Login
+  
+  ' 仪表盘及其功能
+  usecase "仪表盘" as Dashboard
+  usecase "查看统计数据" as ViewStats
+  usecase "修改密码" as ChangePass
+  usecase "退出登录" as Logout
+  
+  ' 内容管理
+  usecase "首页管理" as ManageHome
+  usecase "公司介绍管理" as ManageAbout
+  usecase "产品中心管理" as ManageProduct
+  usecase "工程案例管理" as ManageProject
+  usecase "材料科普管理" as ManageMaterial
+  usecase "客户好评管理" as ManageReview
+  usecase "新闻动态管理" as ManageNews
+  usecase "联系我们管理" as ManageContact
+  
+  ' 请求管理
+  rectangle "请求管理" {
+    usecase "联系请求" as HandleContact
+    usecase "报价请求" as HandleQuote
+    usecase "订阅请求" as HandleSubscribe
+  }
+  
+  ' 媒体库
+  usecase "媒体库" as MediaLibrary
+}
+
+' 登录关系
+Admin --> Login
+Login --> Dashboard : 进入系统
+
+' 仪表盘功能
+Dashboard --> ViewStats
+Dashboard --> ChangePass
+Dashboard --> Logout
+
+' 所有并列的一级菜单项
+Login --> ManageHome
+Login --> ManageAbout
+Login --> ManageProduct
+Login --> ManageProject
+Login --> ManageMaterial
+Login --> ManageReview
+Login --> ManageNews
+Login --> ManageContact
+Login --> HandleContact
+Login --> HandleQuote
+Login --> HandleSubscribe
+Login --> MediaLibrary
+
+' 媒体库支持关系
+MediaLibrary .> ManageHome : <<支持>>
+MediaLibrary .> ManageAbout : <<支持>>
+MediaLibrary .> ManageProduct : <<支持>>
+MediaLibrary .> ManageProject : <<支持>>
+MediaLibrary .> ManageMaterial : <<支持>>
+MediaLibrary .> ManageReview : <<支持>>
+MediaLibrary .> ManageNews : <<支持>>
+MediaLibrary .> ManageContact : <<支持>>
+
+' 请求管理关联
+HandleContact .> ManageContact : <<关联>>
+HandleQuote .> ManageProduct : <<关联>>
+HandleSubscribe .> ManageNews : <<关联>>
+@enduml

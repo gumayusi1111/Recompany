@@ -1,0 +1,62 @@
+@startuml contact
+!theme plain
+top to bottom direction
+left to right direction
+
+skinparam nodesep 10
+skinparam ranksep 30
+
+' 注释掉可能导致问题的include指令
+' !include ../公共/header.puml
+' !include ../公共/footer.puml
+
+package "联系我们" {
+  [导航栏] as navbar
+  [面包屑导航栏] as breadcrumb #lightgreen
+  [SEO标题] as seoTitle #lightblue
+  [Banner] as banner
+  
+  ' 左侧在线咨询表单
+  [在线咨询表单] as consultForm #lightpink
+  
+  package "联系信息卡片" as contactCards {
+    [电话卡片] as phoneCard
+    [邮箱卡片] as emailCard
+    [地址卡片] as addressCard
+    
+    ' 水平排列三个卡片
+    phoneCard -right-> emailCard
+    emailCard -right-> addressCard
+  }
+  
+  [公司位置地图] as map
+  [紧急联系CTA] as emergencyCTA
+  [页脚] as footer
+  
+  ' 右侧智能客服
+  [智能客服] as chatBot #lightyellow
+
+  ' 连接关系
+  navbar --> breadcrumb
+  breadcrumb --> seoTitle
+  seoTitle --> banner
+  banner --> contactCards
+  contactCards --> map
+  map --> emergencyCTA
+  emergencyCTA --> footer
+  
+  ' 侧边元素连接
+  consultForm -left-> contactCards
+  consultForm -left-> map
+  consultForm -left-> emergencyCTA
+  
+  chatBot -right-> contactCards
+  chatBot -right-> map
+  chatBot -right-> emergencyCTA
+}
+
+' 引用公共组件
+navbar .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

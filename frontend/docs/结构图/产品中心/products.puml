@@ -1,0 +1,55 @@
+@startuml product
+!theme plain
+top to bottom direction
+
+skinparam nodesep 10
+skinparam ranksep 30
+
+' 注释掉可能导致问题的include指令
+' !include ../公共/header.puml
+' !include ../公共/footer.puml
+
+package "产品中心" {
+  [导航栏] as navbar
+  [面包屑导航栏] as breadcrumb #lightgreen
+  [产品中心主标题] as title #lightblue
+  
+  package "产品展示" as products {
+    ' 第一行产品
+    [产品卡片1] as product1
+    [产品卡片2] as product2
+    [产品卡片3] as product3
+    
+    ' 第二行产品
+    [产品卡片4] as product4
+    [产品卡片5] as product5
+    [产品卡片6] as product6
+    
+    ' 第一行水平排列
+    product1 -right-> product2
+    product2 -right-> product3
+    
+    ' 第二行水平排列
+    product4 -right-> product5
+    product5 -right-> product6
+    
+    ' 两行之间的垂直关系
+    product1 --> product4
+    product2 --> product5
+    product3 --> product6
+  }
+  
+  [页脚] as footer
+
+  ' 页面结构连接关系
+  navbar --> breadcrumb
+  breadcrumb --> title
+  title --> products
+  products --> footer
+}
+
+' 引用公共组件（作为抽象表示）
+navbar .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml
