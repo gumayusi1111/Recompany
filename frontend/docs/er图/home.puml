@@ -1,0 +1,40 @@
+@startuml 首页
+
+entity "首页" as Homepage {
+  * 首页ID : 整数 <<PK>>
+  --
+  大标题 : 字符串
+  小标题 : 字符串
+  SEO标题 : 字符串
+  公司介绍文本 : 文本
+  公司介绍图片路径 : 字符串
+}
+
+entity "产品" as Product {
+  * 产品ID : 整数 <<PK>>
+  --
+  产品名称 : 字符串
+  产品描述 : 文本
+  产品图片路径 : 字符串
+}
+
+entity "工程案例" as EngineeringCase {
+  * 案例ID : 整数 <<PK>>
+  --
+  案例名称 : 字符串
+  案例描述 : 文本
+  案例图片路径 : 字符串
+}
+
+entity "侧边导航" as SideNavigation {
+  * 导航ID : 整数 <<PK>>
+  --
+  导航名称 : 字符串
+  导航链接 : 字符串
+}
+
+Homepage ||--o{ Product : "包含多个"
+Homepage ||--o{ EngineeringCase : "包含多个"
+Homepage ||--o{ SideNavigation : "包含多个"
+
+@enduml
