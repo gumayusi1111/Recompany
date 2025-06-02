@@ -80,8 +80,12 @@ class PerformanceMonitor {
       let clsValue = 0
       const clsObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (!(entry as any).hadRecentInput) {
-            clsValue += (entry as any).value
+          const layoutShiftEntry = entry as PerformanceEntry & {
+            hadRecentInput?: boolean
+            value?: number
+          }
+          if (!layoutShiftEntry.hadRecentInput && layoutShiftEntry.value) {
+            clsValue += layoutShiftEntry.value
           }
         }
         this.recordMetric({ cls: clsValue })
@@ -272,12 +276,14 @@ export const bundleAnalyzer = {
     console.log('Stylesheets:', styles.length)
     
     // 估算总大小（需要实际网络请求来获取准确大小）
-    scripts.forEach((script: any) => {
-      console.log(`Script: ${script.src}`)
+    scripts.forEach((script) => {
+      const scriptElement = script as HTMLScriptElement
+      console.log(`Script: ${scriptElement.src}`)
     })
-    
-    styles.forEach((style: any) => {
-      console.log(`Stylesheet: ${style.href}`)
+
+    styles.forEach((style) => {
+      const linkElement = style as HTMLLinkElement
+      console.log(`Stylesheet: ${linkElement.href}`)
     })
     
     console.groupEnd()
