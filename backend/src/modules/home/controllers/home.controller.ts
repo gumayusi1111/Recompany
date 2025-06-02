@@ -35,11 +35,11 @@ export const getHomeById = async (req: Request, res: Response): Promise<void> =>
 };
 
 /**
- * 创建新首页数据
+ * 创建新首页数据（创建默认首页）
  */
 export const createHome = async (req: Request, res: Response): Promise<void> => {
   try {
-    const newHome = await homeService.createHome(req.body);
+    const newHome = await homeService.createHome();
     res.status(201).json({ code: 0, msg: '创建成功', data: newHome });
   } catch (error) {
     console.error('Error in createHome:', error);

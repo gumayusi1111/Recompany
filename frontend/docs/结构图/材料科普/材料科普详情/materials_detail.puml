@@ -1,0 +1,47 @@
+@startuml material-detail
+!theme plain
+top to bottom direction
+
+skinparam nodesep 10
+skinparam ranksep 30
+
+' 注释掉可能导致问题的include指令
+' !include ../公共/header.puml
+' !include ../公共/footer.puml
+
+package "材料科普详情" {
+  [导航栏] as navbar
+  [面包屑导航栏] as breadcrumb #lightgreen
+  [Banner] as banner
+  
+  package "文章信息" as info {
+    [文章标题] as title #lightblue
+    [作者] as author
+    [发布日期] as date
+    [阅读量] as views
+    
+    ' 文章信息内部的连接关系
+    title --> author
+    author --> date
+    date --> views
+  }
+  
+  [文章正文] as content
+  
+  [返回文档列表按钮] as backButton #lightgray
+  [页脚] as footer
+
+  ' 修复的连接关系（确保使用正确的别名）
+  navbar --> breadcrumb
+  breadcrumb --> banner
+  banner --> info
+  info --> content
+  content --> backButton
+  backButton --> footer
+}
+
+' 引用公共组件
+navbar .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml
