@@ -7,7 +7,7 @@
  */
 
 /**
- * 性能监控指标接口
+ * 性能监控指标接口 - 兼容组件版本
  */
 export interface PerformanceMonitorMetrics {
   // Core Web Vitals
@@ -15,15 +15,22 @@ export interface PerformanceMonitorMetrics {
   lcp?: number  // Largest Contentful Paint
   fid?: number  // First Input Delay
   cls?: number  // Cumulative Layout Shift
-  
+  ttfb?: number // Time to First Byte
+  inp?: number  // Interaction to Next Paint
+
   // 自定义指标
   dataLoadTime?: number     // 数据加载时间
   componentRenderTime?: number  // 组件渲染时间
   bundleSize?: number       // Bundle大小
-  
+
   // 时间戳
   timestamp: number
 }
+
+/**
+ * 向后兼容的类型别名
+ */
+export type PerformanceMetrics = PerformanceMonitorMetrics
 
 /**
  * 性能监控类
@@ -32,10 +39,28 @@ class PerformanceMonitor {
   private metrics: PerformanceMonitorMetrics[] = []
   private observers: PerformanceObserver[] = []
   private isInitialized = false
+  private callbacks: ((metrics: PerformanceMonitorMetrics) => void)[] = []
 
   constructor() {
     if (typeof window !== 'undefined') {
       this.initializeObservers()
+    }
+  }
+
+  /**
+   * 添加性能指标回调
+   */
+  addCallback(callback: (metrics: PerformanceMonitorMetrics) => void) {
+    this.callbacks.push(callback)
+  }
+
+  /**
+   * 移除性能指标回调
+   */
+  removeCallback(callback: (metrics: PerformanceMonitorMetrics) => void) {
+    const index = this.callbacks.indexOf(callback)
+    if (index > -1) {
+      this.callbacks.splice(index, 1)
     }
   }
 
@@ -55,7 +80,7 @@ class PerformanceMonitor {
   }
 
   /**
-   * 监控 Core Web Vitals
+   * 监控 Core Web Vitals - 增强版本
    */
   private observeWebVitals() {
     try {
@@ -81,6 +106,24 @@ class PerformanceMonitor {
       lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
       this.observers.push(lcpObserver)
 
+      // FID (First Input Delay)
+      const fidObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries()
+        entries.forEach((entry) => {
+          const fidEntry = entry as PerformanceEventTiming & {
+            processingStart: number
+            startTime: number
+            name: string
+          }
+          if (fidEntry.name === 'first-input') {
+            const fid = fidEntry.processingStart - fidEntry.startTime
+            this.recordMetric({ fid })
+          }
+        })
+      })
+      fidObserver.observe({ entryTypes: ['first-input'] })
+      this.observers.push(fidObserver)
+
       // CLS (Cumulative Layout Shift)
       let clsValue = 0
       const clsObserver = new PerformanceObserver((list) => {
@@ -98,8 +141,72 @@ class PerformanceMonitor {
       clsObserver.observe({ entryTypes: ['layout-shift'] })
       this.observers.push(clsObserver)
 
+      // INP (Interaction to Next Paint)
+      this.observeINP()
+
+      // TTFB (Time to First Byte)
+      this.observeTTFB()
+
     } catch (error) {
       console.warn('Web Vitals observer setup failed:', error)
+    }
+  }
+
+  /**
+   * 监控 INP (Interaction to Next Paint)
+   */
+  private observeINP() {
+    try {
+      let maxINP = 0
+      const inpObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries()
+        entries.forEach((entry) => {
+          const eventEntry = entry as PerformanceEventTiming & {
+            processingStart: number
+            processingEnd: number
+            startTime: number
+            interactionId?: number
+          }
+
+          if (eventEntry.interactionId) {
+            const inp = eventEntry.processingEnd - eventEntry.startTime
+            maxINP = Math.max(maxINP, inp)
+            this.recordMetric({ inp: maxINP })
+
+            // 如果INP超过200ms，记录详细信息用于调试
+            if (inp > 200 && process.env.NODE_ENV === 'development') {
+              console.warn('🐌 Slow interaction detected:', {
+                inp: inp,
+                entryType: entry.entryType,
+                name: entry.name,
+                startTime: eventEntry.startTime,
+                processingStart: eventEntry.processingStart,
+                processingEnd: eventEntry.processingEnd,
+                target: (entry as any).target?.tagName || 'unknown'
+              })
+            }
+          }
+        })
+      })
+      inpObserver.observe({ entryTypes: ['event'] })
+      this.observers.push(inpObserver)
+    } catch (error) {
+      console.warn('INP monitoring failed:', error)
+    }
+  }
+
+  /**
+   * 监控 TTFB (Time to First Byte)
+   */
+  private observeTTFB() {
+    try {
+      const navigationEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
+      if (navigationEntry) {
+        const ttfb = navigationEntry.responseStart - navigationEntry.requestStart
+        this.recordMetric({ ttfb })
+      }
+    } catch (error) {
+      console.warn('TTFB monitoring failed:', error)
     }
   }
 
@@ -128,15 +235,28 @@ class PerformanceMonitor {
    */
   recordMetric(metric: Partial<PerformanceMonitorMetrics>) {
     const existingMetric = this.metrics[this.metrics.length - 1]
+    let currentMetric: PerformanceMonitorMetrics
+
     if (existingMetric && Date.now() - existingMetric.timestamp < 1000) {
       // 合并1秒内的指标
       Object.assign(existingMetric, metric)
+      currentMetric = existingMetric
     } else {
-      this.metrics.push({
+      currentMetric = {
         ...metric,
         timestamp: Date.now()
-      })
+      }
+      this.metrics.push(currentMetric)
     }
+
+    // 触发回调
+    this.callbacks.forEach(callback => {
+      try {
+        callback(currentMetric)
+      } catch (error) {
+        console.warn('Performance callback failed:', error)
+      }
+    })
   }
 
   /**
@@ -314,4 +434,107 @@ export function withPerformanceMonitoring<T extends Record<string, unknown>>(
   fetchDataFn: () => Promise<T>
 ) {
   return () => performanceMonitor.measureDataLoad(fetchDataFn(), `${pageName}-data`)
+}
+
+/**
+ * 性能指标评分函数 - 从组件版本迁移
+ */
+export function getPerformanceScore(metrics: PerformanceMonitorMetrics): {
+  score: number
+  grade: 'A' | 'B' | 'C' | 'D' | 'F'
+  details: Record<string, { value: number; score: number; status: 'good' | 'needs-improvement' | 'poor' }>
+} {
+  const details: Record<string, { value: number; score: number; status: 'good' | 'needs-improvement' | 'poor' }> = {}
+  let totalScore = 0
+  let metricCount = 0
+
+  // FCP评分 (0-2.5s: good, 2.5-4s: needs improvement, >4s: poor)
+  if (metrics.fcp !== undefined) {
+    const fcp = metrics.fcp / 1000 // 转换为秒
+    let score = 100
+    let status: 'good' | 'needs-improvement' | 'poor' = 'good'
+
+    if (fcp > 4) {
+      score = 0
+      status = 'poor'
+    } else if (fcp > 2.5) {
+      score = 50
+      status = 'needs-improvement'
+    }
+
+    details.fcp = { value: fcp, score, status }
+    totalScore += score
+    metricCount++
+  }
+
+  // LCP评分 (0-2.5s: good, 2.5-4s: needs improvement, >4s: poor)
+  if (metrics.lcp !== undefined) {
+    const lcp = metrics.lcp / 1000
+    let score = 100
+    let status: 'good' | 'needs-improvement' | 'poor' = 'good'
+
+    if (lcp > 4) {
+      score = 0
+      status = 'poor'
+    } else if (lcp > 2.5) {
+      score = 50
+      status = 'needs-improvement'
+    }
+
+    details.lcp = { value: lcp, score, status }
+    totalScore += score
+    metricCount++
+  }
+
+  // FID评分 (0-100ms: good, 100-300ms: needs improvement, >300ms: poor)
+  if (metrics.fid !== undefined) {
+    const fid = metrics.fid
+    let score = 100
+    let status: 'good' | 'needs-improvement' | 'poor' = 'good'
+
+    if (fid > 300) {
+      score = 0
+      status = 'poor'
+    } else if (fid > 100) {
+      score = 50
+      status = 'needs-improvement'
+    }
+
+    details.fid = { value: fid, score, status }
+    totalScore += score
+    metricCount++
+  }
+
+  // CLS评分 (0-0.1: good, 0.1-0.25: needs improvement, >0.25: poor)
+  if (metrics.cls !== undefined) {
+    const cls = metrics.cls
+    let score = 100
+    let status: 'good' | 'needs-improvement' | 'poor' = 'good'
+
+    if (cls > 0.25) {
+      score = 0
+      status = 'poor'
+    } else if (cls > 0.1) {
+      score = 50
+      status = 'needs-improvement'
+    }
+
+    details.cls = { value: cls, score, status }
+    totalScore += score
+    metricCount++
+  }
+
+  const averageScore = metricCount > 0 ? totalScore / metricCount : 0
+  let grade: 'A' | 'B' | 'C' | 'D' | 'F' = 'F'
+
+  if (averageScore >= 90) grade = 'A'
+  else if (averageScore >= 80) grade = 'B'
+  else if (averageScore >= 70) grade = 'C'
+  else if (averageScore >= 60) grade = 'D'
+
+  return {
+    score: Math.round(averageScore),
+    grade,
+    details
+  }
 }
