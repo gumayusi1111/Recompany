@@ -1,15 +1,15 @@
 /**
- * 性能监控和优化工具
- * 用于监控首页性能指标和优化建议
+ * 全局性能监控工具
+ * 用于监控应用性能指标和优化建议
  * 
  * @author AI Assistant
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 /**
- * 性能指标接口
+ * 性能监控指标接口
  */
-interface PerformanceMetrics {
+export interface PerformanceMonitorMetrics {
   // Core Web Vitals
   fcp?: number  // First Contentful Paint
   lcp?: number  // Largest Contentful Paint
@@ -29,24 +29,29 @@ interface PerformanceMetrics {
  * 性能监控类
  */
 class PerformanceMonitor {
-  private metrics: PerformanceMetrics[] = []
+  private metrics: PerformanceMonitorMetrics[] = []
   private observers: PerformanceObserver[] = []
+  private isInitialized = false
 
   constructor() {
-    this.initializeObservers()
+    if (typeof window !== 'undefined') {
+      this.initializeObservers()
+    }
   }
 
   /**
    * 初始化性能观察器
    */
   private initializeObservers() {
-    if (typeof window === 'undefined') return
-
-    // 监控 Core Web Vitals
-    this.observeWebVitals()
+    if (this.isInitialized) return
     
-    // 监控资源加载
-    this.observeResourceTiming()
+    try {
+      this.observeWebVitals()
+      this.observeResourceTiming()
+      this.isInitialized = true
+    } catch (error) {
+      console.warn('Performance monitoring initialization failed:', error)
+    }
   }
 
   /**
@@ -94,7 +99,7 @@ class PerformanceMonitor {
       this.observers.push(clsObserver)
 
     } catch (error) {
-      console.warn('Performance Observer not supported:', error)
+      console.warn('Web Vitals observer setup failed:', error)
     }
   }
 
@@ -114,14 +119,14 @@ class PerformanceMonitor {
       resourceObserver.observe({ entryTypes: ['resource'] })
       this.observers.push(resourceObserver)
     } catch (error) {
-      console.warn('Resource timing observer not supported:', error)
+      console.warn('Resource timing observer setup failed:', error)
     }
   }
 
   /**
    * 记录性能指标
    */
-  recordMetric(metric: Partial<PerformanceMetrics>) {
+  recordMetric(metric: Partial<PerformanceMonitorMetrics>) {
     const existingMetric = this.metrics[this.metrics.length - 1]
     if (existingMetric && Date.now() - existingMetric.timestamp < 1000) {
       // 合并1秒内的指标
@@ -137,10 +142,11 @@ class PerformanceMonitor {
   /**
    * 测量数据加载时间
    */
-  measureDataLoad<T>(promise: Promise<T>, label: string = 'data-load'): Promise<T> {
+  async measureDataLoad<T>(promise: Promise<T>, label: string = 'data-load'): Promise<T> {
     const startTime = performance.now()
     
-    return promise.then(result => {
+    try {
+      const result = await promise
       const endTime = performance.now()
       const duration = endTime - startTime
       
@@ -148,7 +154,7 @@ class PerformanceMonitor {
       this.recordMetric({ dataLoadTime: duration })
       
       return result
-    }).catch(error => {
+    } catch (error) {
       const endTime = performance.now()
       const duration = endTime - startTime
       
@@ -156,7 +162,7 @@ class PerformanceMonitor {
       this.recordMetric({ dataLoadTime: duration })
       
       throw error
-    })
+    }
   }
 
   /**
@@ -177,7 +183,7 @@ class PerformanceMonitor {
   /**
    * 获取性能报告
    */
-  getPerformanceReport(): PerformanceMetrics | null {
+  getPerformanceReport(): PerformanceMonitorMetrics | null {
     if (this.metrics.length === 0) return null
 
     const latest = this.metrics[this.metrics.length - 1]
@@ -192,7 +198,7 @@ class PerformanceMonitor {
   /**
    * 获取指标平均值
    */
-  private getAverageMetric(key: keyof PerformanceMetrics): number | undefined {
+  private getAverageMetric(key: keyof PerformanceMonitorMetrics): number | undefined {
     const values = this.metrics
       .map(m => m[key])
       .filter((v): v is number => typeof v === 'number')
@@ -240,6 +246,7 @@ class PerformanceMonitor {
   cleanup() {
     this.observers.forEach(observer => observer.disconnect())
     this.observers = []
+    this.isInitialized = false
   }
 }
 
@@ -259,42 +266,52 @@ export function usePerformanceMonitor() {
 }
 
 /**
- * Bundle 分析工具
+ * 集成RUM监控的性能测量装饰器
  */
-export const bundleAnalyzer = {
-  /**
-   * 分析当前页面的 bundle 大小
-   */
-  analyzeBundleSize: () => {
-    if (typeof window === 'undefined') return
+export function withRUMMonitoring<T extends Record<string, unknown>>(
+  pageName: string,
+  fetchDataFn: () => Promise<T>
+) {
+  return async () => {
+    const startTime = performance.now()
 
-    const scripts = Array.from(document.querySelectorAll('script[src]'))
-    const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
-    
-    console.group('📦 Bundle Analysis')
-    console.log('Scripts:', scripts.length)
-    console.log('Stylesheets:', styles.length)
-    
-    // 估算总大小（需要实际网络请求来获取准确大小）
-    scripts.forEach((script) => {
-      const scriptElement = script as HTMLScriptElement
-      console.log(`Script: ${scriptElement.src}`)
-    })
+    try {
+      const result = await performanceMonitor.measureDataLoad(fetchDataFn(), `${pageName}-data`)
 
-    styles.forEach((style) => {
-      const linkElement = style as HTMLLinkElement
-      console.log(`Stylesheet: ${linkElement.href}`)
-    })
-    
-    console.groupEnd()
-  },
+      // 记录到RUM（如果可用）
+      if (typeof window !== 'undefined') {
+        const { rumMonitor } = await import('./rum')
+        const duration = performance.now() - startTime
+        rumMonitor.recordCustomMetric(`${pageName}_data_load_time`, duration, {
+          pageName,
+          success: true
+        })
+      }
 
-  /**
-   * 检查未使用的依赖
-   */
-  checkUnusedDependencies: () => {
-    console.log('🔍 Checking for unused dependencies...')
-    // 这里可以集成更复杂的分析逻辑
-    console.log('建议使用 webpack-bundle-analyzer 进行详细分析')
+      return result
+    } catch (error) {
+      // 记录错误到RUM
+      if (typeof window !== 'undefined') {
+        const { rumMonitor } = await import('./rum')
+        const duration = performance.now() - startTime
+        rumMonitor.recordCustomMetric(`${pageName}_data_load_time`, duration, {
+          pageName,
+          success: false,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        })
+      }
+
+      throw error
+    }
   }
+}
+
+/**
+ * 页面性能监控装饰器
+ */
+export function withPerformanceMonitoring<T extends Record<string, unknown>>(
+  pageName: string,
+  fetchDataFn: () => Promise<T>
+) {
+  return () => performanceMonitor.measureDataLoad(fetchDataFn(), `${pageName}-data`)
 }

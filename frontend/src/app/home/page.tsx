@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect, lazy, Suspense } from 'react'
-import { Header } from '@/components/Header'
-import { Footer } from '@/components/Footer'
 import { HeroSection } from './components/HeroSection/HeroSection'
+import { MainTitle } from './components/MainTitle/MainTitle'
 import { SEOHead } from './components/SEOHead'
 import { LoadingComponent } from './components/LoadingComponent'
 import { ErrorComponent } from './components/ErrorComponent'
@@ -13,14 +12,13 @@ import {
   useHomePageLoading,
   useHomePageError,
   useHomePageActions
-} from './store'
+} from '@/stores/pages/homeStore'
 
 // 懒加载非关键组件
-const Banner = lazy(() => import('./components/Banner/Banner').then(module => ({ default: module.Banner })))
 const CompanyIntro = lazy(() => import('./components/CompanyIntro/CompanyIntro').then(module => ({ default: module.CompanyIntro })))
 const ProductSection = lazy(() => import('./components/ProductSection/ProductSection').then(module => ({ default: module.ProductSection })))
 const CaseSection = lazy(() => import('./components/CaseSection/CaseSection').then(module => ({ default: module.CaseSection })))
-const DataVerification = lazy(() => import('./components/DataVerification/DataVerification').then(module => ({ default: module.DataVerification })))
+
 
 // 懒加载组件的加载指示器
 const SectionLoader = () => (
@@ -51,9 +49,8 @@ export default function HomePage() {
   if (!homeData) return <NoDataComponent />
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
       <SEOHead data={homeData} />
-      <Header />
 
       {/* 关键内容 - 立即加载 */}
       <HeroSection
@@ -63,13 +60,14 @@ export default function HomePage() {
         seoDescription={homeData.seoDescription}
       />
 
-      {/* 非关键内容 - 懒加载 */}
-      <Suspense fallback={<SectionLoader />}>
-        <Banner
-          slides={homeData.bannerSlides}
-          config={homeData.pageConfig}
-        />
-      </Suspense>
+      {/* Banner组件已移除 - 根据用户要求 */}
+
+      {/* 主标题区块 */}
+      <MainTitle
+        title="专业膜结构解决方案"
+        subtitle="30年专业经验 · 膜结构领域专家"
+        description="亚豪膜结构成立于1994年，专注于膜结构设计与施工，为客户提供全方位的膜结构解决方案"
+      />
 
       <Suspense fallback={<SectionLoader />}>
         <CompanyIntro
@@ -95,11 +93,7 @@ export default function HomePage() {
         />
       </Suspense>
 
-      <Suspense fallback={<SectionLoader />}>
-        <DataVerification {...homeData} />
-      </Suspense>
 
-      <Footer />
-    </div>
+    </>
   )
 }

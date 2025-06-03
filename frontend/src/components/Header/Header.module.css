@@ -1,0 +1,426 @@
+/**
+ * Header组件样式
+ * 响应式设计，支持桌面端和移动端
+ */
+
+/* 主容器 */
+.header {
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
+
+.header.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.header.transparent {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+/* 滚动状态样式 */
+.header.scrolled {
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.1);
+  border-bottom-color: rgba(229, 231, 235, 0.8);
+}
+
+.header.scrolled .container {
+  height: 70px;
+}
+
+.header.scrolled .logo {
+  width: 45px;
+  height: 45px;
+}
+
+.header.scrolled .companyName {
+  font-size: 1.375rem;
+}
+
+.header.scrolled .companySlogan {
+  font-size: 0.8125rem;
+}
+
+.header.scrolled .navigationLink {
+  padding: 0.5rem 0.875rem;
+  min-width: 65px;
+  font-size: 0.875rem;
+}
+
+.header.scrolled .companyName {
+  font-size: 1.25rem;
+}
+
+.header.scrolled .companySlogan {
+  font-size: 0.75rem;
+}
+
+/* 内容容器 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+  height: 80px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* 左侧品牌区域 */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+  padding: 0.375rem 0.75rem;
+  border-radius: 12px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.brand:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+  background-color: rgba(37, 99, 235, 0.05);
+}
+
+/* Logo */
+.logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 公司信息 */
+.companyInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.companyName {
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  transition: all 0.3s ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.companySlogan {
+  font-size: 0.8125rem;
+  line-height: 1.1;
+  margin: 0;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 导航菜单 */
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: end;
+}
+
+.navigationList {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navigationItem {
+  position: relative;
+}
+
+.navigationLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1rem;
+  min-width: 70px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.navigationLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: -1;
+}
+
+.navigationLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.navigationLink:hover::before {
+  opacity: 1;
+}
+
+.navigationLink.active {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.navigationLink.external::after {
+  content: '↗';
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* 移动端菜单按钮 */
+.mobileMenuButton {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.mobileMenuButton:hover {
+  background-color: #f3f4f6;
+}
+
+.hamburger {
+  width: 24px;
+  height: 2px;
+  background-color: #374151;
+  border-radius: 1px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  background-color: #374151;
+  border-radius: 1px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger::before {
+  top: -8px;
+}
+
+.hamburger::after {
+  top: 8px;
+}
+
+/* 移动端菜单打开状态 */
+.mobileMenuButton.open .hamburger {
+  background-color: transparent;
+}
+
+.mobileMenuButton.open .hamburger::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.mobileMenuButton.open .hamburger::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* 移动端菜单 */
+.mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.mobileMenu.open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileMenuList {
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobileMenuLink {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.mobileMenuLink:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.mobileMenuLink.active {
+  background-color: rgba(59, 130, 246, 0.15);
+  font-weight: 600;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    height: 70px;
+    padding: 0 1rem;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+  }
+
+  .brand {
+    gap: 0.625rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .companyName {
+    font-size: 1.125rem;
+  }
+
+  .companySlogan {
+    font-size: 0.6875rem;
+  }
+
+  .navigation {
+    gap: 0.75rem;
+  }
+
+  .navigationList {
+    display: none;
+  }
+
+  .mobileMenuButton {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    height: 60px;
+    padding: 0 0.75rem;
+  }
+  
+  .brand {
+    gap: 0.5rem;
+  }
+  
+  .logo {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .companyName {
+    font-size: 1.125rem;
+  }
+  
+  .companySlogan {
+    display: none;
+  }
+}
+
+/* 无障碍设计 */
+@media (prefers-reduced-motion: reduce) {
+  .navigationLink,
+  .mobileMenuButton,
+  .hamburger,
+  .hamburger::before,
+  .hamburger::after,
+  .mobileMenu,
+  .mobileMenuLink {
+    transition: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .header {
+    border-bottom-width: 2px;
+  }
+  
+  .navigationLink,
+  .mobileMenuLink {
+    border: 1px solid transparent;
+  }
+  
+  .navigationLink:hover,
+  .mobileMenuLink:hover {
+    border-color: #2563eb;
+  }
+}

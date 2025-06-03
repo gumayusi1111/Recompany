@@ -1,0 +1,423 @@
+/**
+ * Footer组件样式
+ * 四列布局，响应式设计
+ */
+
+/* 主容器 */
+.footer {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 50%, #0f172a 100%);
+  color: #f9fafb;
+  padding: 3rem 0 1.25rem;
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+}
+
+/* 内容容器 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* 主要内容区域 */
+.content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 列样式 */
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.columnTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa) bottom / 100% 2px no-repeat;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.columnTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #60a5fa, #93c5fd);
+  border-radius: 2px;
+}
+
+/* 关于我们列 */
+.aboutContent {
+  line-height: 1.6;
+  color: #d1d5db;
+  font-size: 0.875rem;
+}
+
+.establishedInfo {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* 联系信息列 */
+.contactList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 0.375rem 0;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.contactItem:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  padding-left: 0.5rem;
+}
+
+.contactIcon {
+  width: 18px;
+  height: 18px;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+  color: #60a5fa;
+  font-size: 1rem;
+}
+
+.contactText {
+  color: #d1d5db;
+  transition: color 0.2s ease-in-out;
+}
+
+.contactItem:hover .contactText {
+  color: #f3f4f6;
+}
+
+.contactLink {
+  color: #60a5fa;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+}
+
+.contactLink:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+/* 链接列表 */
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.linkList.doubleColumn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.375rem 0.75rem;
+}
+
+.linkItem {
+  font-size: 0.875rem;
+}
+
+.link {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+  padding: 0.375rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.2), transparent);
+  transition: left 0.5s ease-in-out;
+}
+
+.link:hover {
+  color: #93c5fd;
+  background-color: rgba(59, 130, 246, 0.1);
+  transform: translateX(4px);
+}
+
+.link:hover::before {
+  left: 100%;
+}
+
+.link.external::after {
+  content: '↗';
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  opacity: 0.8;
+  transition: all 0.2s ease-in-out;
+}
+
+.link.external:hover::after {
+  transform: translate(2px, -2px);
+}
+
+/* 社交媒体链接 */
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #374151;
+  color: #d1d5db;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.socialLink:hover {
+  background-color: #3b82f6;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* 底部版权区域 */
+.bottom {
+  border-top: 1px solid #374151;
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.copyright {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.icp {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+.icp:hover {
+  color: #d1d5db;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 2rem 0 1rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .column {
+    gap: 0.75rem;
+  }
+
+  .columnTitle {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .linkList.doubleColumn {
+    grid-template-columns: 1fr;
+    gap: 0.375rem;
+  }
+
+  .bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+    padding-top: 1.25rem;
+  }
+
+  .socialLinks {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 1.5rem 0 1rem;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .content {
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .column {
+    gap: 0.625rem;
+  }
+
+  .columnTitle {
+    font-size: 0.9375rem;
+    margin-bottom: 0.625rem;
+    padding-bottom: 0.375rem;
+  }
+
+  .contactItem {
+    font-size: 0.8125rem;
+    padding: 0.25rem 0;
+  }
+
+  .contactIcon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .linkItem {
+    font-size: 0.8125rem;
+  }
+
+  .link {
+    padding: 0.25rem 0.375rem;
+  }
+
+  .socialLink {
+    width: 36px;
+    height: 36px;
+  }
+
+  .bottom {
+    gap: 0.5rem;
+    padding-top: 1rem;
+  }
+
+  .copyright,
+  .icp {
+    font-size: 0.75rem;
+  }
+}
+
+/* 无障碍设计 */
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .contactLink,
+  .socialLink {
+    transition: none;
+  }
+  
+  .socialLink:hover {
+    transform: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .footer {
+    background-color: #000000;
+    border-top: 2px solid #ffffff;
+  }
+  
+  .columnTitle {
+    border-bottom-color: #ffffff;
+  }
+  
+  .columnTitle::after {
+    background-color: #ffffff;
+  }
+  
+  .link,
+  .contactLink {
+    border-bottom: 1px solid transparent;
+  }
+  
+  .link:hover,
+  .contactLink:hover {
+    border-bottom-color: currentColor;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .footer {
+    background-color: transparent !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+  }
+  
+  .socialLinks {
+    display: none;
+  }
+  
+  .link,
+  .contactLink {
+    color: #000000 !important;
+    text-decoration: underline !important;
+  }
+}

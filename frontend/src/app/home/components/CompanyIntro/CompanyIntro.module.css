@@ -1,40 +1,286 @@
+/**
+ * 公司介绍组件样式 - 参考图片布局
+ */
+
 .companySection {
-  padding: 4rem 0;
+  padding: 5rem 0;
+  background: var(--bg-primary);
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
+}
+
+/* 区块标题 */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.sectionSubtitle {
+  font-size: 1rem;
+  color: var(--text-tertiary);
+  font-weight: 400;
+  margin: 0;
 }
 
 .content {
-  max-width: 64rem;
-  margin: 0 auto;
-  text-align: center;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 4rem;
+  align-items: center;
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-  color: #1f2937;
+/* 左侧文字内容 */
+.textContent {
+  padding-right: 2rem;
 }
 
-.text {
+.textBlock {
+  max-width: 100%;
+}
+
+.description {
   font-size: 1.125rem;
-  color: #4b5563;
-  line-height: 1.75;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  font-weight: 400;
+  text-align: justify;
 }
 
-@media (min-width: 768px) {
-  .title {
-    font-size: 3rem;
+.learnMore {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.learnMore:hover {
+  color: #1d4ed8;
+  transform: translateX(4px);
+}
+
+.learnMoreText {
+  font-size: 1rem;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.learnMore:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* 右侧图片内容 */
+.imageContent {
+  position: relative;
+}
+
+.imageWrapper {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background: var(--bg-secondary);
+  aspect-ratio: 4/3;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.imageWrapper:hover .image {
+  transform: scale(1.02);
+}
+
+/* 图片覆盖层 */
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.8) 0%,
+    rgba(59, 130, 246, 0.6) 50%,
+    rgba(147, 197, 253, 0.4) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 2;
+}
+
+.imageWrapper:hover .imageOverlay {
+  opacity: 1;
+}
+
+.overlayContent {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+}
+
+.overlayTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.overlaySubtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
+}
+
+.overlayDescription {
+  font-size: 0.875rem;
+  font-weight: 400;
+  opacity: 0.8;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .content {
+    gap: 3rem;
+  }
+
+  .textContent {
+    padding-right: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 2.25rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .title {
-    font-size: 4rem;
+@media (max-width: 768px) {
+  .companySection {
+    padding: 4rem 0;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .sectionHeader {
+    margin-bottom: 3rem;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .textContent {
+    padding-right: 0;
+    order: 2;
+    text-align: left;
+  }
+
+  .imageContent {
+    order: 1;
+  }
+
+  .description {
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  .learnMore {
+    justify-content: flex-start;
+  }
+
+  .overlayContent {
+    padding: 1.5rem;
+  }
+
+  .overlayTitle {
+    font-size: 1.25rem;
+  }
+
+  .overlaySubtitle {
+    font-size: 0.875rem;
+  }
+
+  .overlayDescription {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .companySection {
+    padding: 3rem 0;
+  }
+
+  .sectionHeader {
+    margin-bottom: 2rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 0.875rem;
+  }
+
+  .content {
+    gap: 2rem;
+  }
+
+  .description {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .learnMoreText {
+    font-size: 0.875rem;
+  }
+
+  .overlayContent {
+    padding: 1rem;
+  }
+
+  .overlayTitle {
+    font-size: 1.125rem;
+  }
+
+  .overlaySubtitle {
+    font-size: 0.8125rem;
+  }
+
+  .overlayDescription {
+    font-size: 0.75rem;
   }
 }

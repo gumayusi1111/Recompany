@@ -2,7 +2,7 @@
 
 import Head from 'next/head'
 import { HomePageData } from '../types'
-import { generateStructuredData, generateBreadcrumbStructuredData } from '../seo'
+import { generateStructuredData, generateBreadcrumbStructuredData } from '@/lib/seo/core'
 
 interface SEOHeadProps {
   data: HomePageData
@@ -13,8 +13,32 @@ interface SEOHeadProps {
  * 用于在客户端动态注入SEO相关的head标签
  */
 export function SEOHead({ data }: SEOHeadProps) {
-  const structuredData = generateStructuredData(data)
-  const breadcrumbData = generateBreadcrumbStructuredData()
+  // 适配全局SEO函数
+  const organizationData = generateStructuredData({
+    title: data.seoMainTitle,
+    description: data.seoDescription,
+    keywords: data.seoKeywords,
+    type: 'Organization'
+  })
+
+  const breadcrumbData = generateBreadcrumbStructuredData([
+    { name: '首页', url: '/' }
+  ])
+
+  // 生成产品结构化数据
+  const productsData = data.featuredProducts.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: data.productSectionTitle || '我们的产品',
+    numberOfItems: data.featuredProducts.length,
+    itemListElement: data.featuredProducts.map((product, index) => ({
+      '@type': 'Product',
+      position: index + 1,
+      name: product.name,
+      description: product.description,
+      image: product.imagePath,
+    })),
+  } : null
 
   return (
     <Head>
@@ -22,16 +46,16 @@ export function SEOHead({ data }: SEOHeadProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData.organization)
+          __html: JSON.stringify(organizationData)
         }}
       />
-      
+
       {/* 结构化数据 - 产品信息 */}
-      {structuredData.products && (
+      {productsData && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData.products)
+            __html: JSON.stringify(productsData)
           }}
         />
       )}

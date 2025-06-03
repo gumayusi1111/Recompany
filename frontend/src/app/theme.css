@@ -1,0 +1,425 @@
+/**
+ * 全局主题样式
+ * 支持白天/夜晚模式切换
+ */
+
+/* 主题切换动画 */
+:root.theme-transitioning,
+:root.theme-transitioning * {
+  transition: background-color 0.3s ease-in-out, 
+              color 0.3s ease-in-out, 
+              border-color 0.3s ease-in-out,
+              box-shadow 0.3s ease-in-out !important;
+}
+
+/* 白天模式（默认） - 优化对比度 */
+:root,
+:root.theme-light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #111827;
+  --text-secondary: #1f2937;
+  --text-tertiary: #374151;
+  --text-muted: #4b5563;
+  --border-primary: #e5e7eb;
+  --border-secondary: #d1d5db;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* 夜晚模式 - 优化背景色 */
+:root.theme-dark {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2a2a2a;
+  --text-primary: #ffffff;
+  --text-secondary: #f3f4f6;
+  --text-tertiary: #e5e7eb;
+  --text-muted: #d1d5db;
+  --border-primary: #333333;
+  --border-secondary: #404040;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+}
+
+/* Header主题样式 */
+:root.theme-light .header-theme {
+  background-color: #ffffff;
+  color: #1f2937;
+  border-bottom-color: #e5e7eb;
+}
+
+:root.theme-light .header-theme.scrolled {
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+}
+
+/* Header白天模式文字优化 */
+:root.theme-light .header-theme .companyName {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:root.theme-light .header-theme .companySlogan {
+  color: #4b5563;
+  font-weight: 600;
+}
+
+:root.theme-light .header-theme .brand:hover .companySlogan {
+  color: #2563eb;
+}
+
+:root.theme-light .header-theme .navigationLink {
+  color: #374151;
+  font-weight: 600;
+}
+
+:root.theme-light .header-theme .navigationLink:hover {
+  color: #ffffff;
+}
+
+:root.theme-light .header-theme .navigationLink.active {
+  color: #ffffff;
+}
+
+:root.theme-dark .header-theme {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-bottom-color: #333333;
+}
+
+:root.theme-dark .header-theme.scrolled {
+  background-color: rgba(30, 30, 30, 0.98);
+  backdrop-filter: blur(20px);
+}
+
+/* Header夜间模式文字优化 */
+:root.theme-dark .header-theme .companyName {
+  background: linear-gradient(135deg, #60a5fa, #93c5fd);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:root.theme-dark .header-theme .companySlogan {
+  color: #d1d5db;
+}
+
+:root.theme-dark .header-theme .brand:hover .companySlogan {
+  color: #f3f4f6;
+}
+
+:root.theme-dark .header-theme .navigationLink {
+  color: #f3f4f6;
+}
+
+:root.theme-dark .header-theme .navigationLink:hover {
+  color: #ffffff;
+}
+
+:root.theme-dark .header-theme .navigationLink.active {
+  color: #ffffff;
+}
+
+/* Footer主题样式 */
+:root.theme-light .footer-theme {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  color: #1f2937;
+  border-top: 1px solid #e5e7eb;
+}
+
+:root.theme-light .footer-theme .footer-title {
+  color: #1f2937;
+  border-bottom-color: #3b82f6;
+}
+
+:root.theme-light .footer-theme .footer-text {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* Footer白天模式关于我们描述文字优化 - 提高对比度 */
+:root.theme-light .footer-theme .aboutContent {
+  color: #111827;
+  font-weight: 500;
+}
+
+:root.theme-light .footer-theme .aboutContent p {
+  color: #111827;
+}
+
+:root.theme-light .footer-theme .footer-link {
+  color: #374151;
+  font-weight: 600;
+}
+
+:root.theme-light .footer-theme .footer-link:hover {
+  color: #111827;
+  background-color: rgba(59, 130, 246, 0.1);
+  text-decoration: underline;
+}
+
+:root.theme-light .footer-theme .footer-contact-icon {
+  color: #3b82f6;
+}
+
+:root.theme-light .footer-theme .footer-bottom {
+  border-top-color: #d1d5db;
+}
+
+:root.theme-light .footer-theme .footer-bottom .footer-text {
+  color: #111827;
+  font-weight: 700;
+}
+
+:root.theme-light .footer-theme .footer-bottom .footer-link {
+  color: #111827;
+  font-weight: 700;
+}
+
+:root.theme-light .footer-theme .footer-bottom .footer-link:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+
+/* 夜晚模式Footer优化 */
+:root.theme-dark .footer-theme {
+  background: linear-gradient(135deg, #1e1e1e 0%, #121212 50%, #0a0a0a 100%);
+  color: #ffffff;
+}
+
+:root.theme-dark .footer-theme .footer-title {
+  color: #ffffff;
+}
+
+:root.theme-dark .footer-theme .footer-text {
+  color: #d1d5db;
+}
+
+:root.theme-dark .footer-theme .footer-link {
+  color: #d1d5db;
+}
+
+:root.theme-dark .footer-theme .footer-link:hover {
+  color: #93c5fd;
+  background-color: rgba(96, 165, 250, 0.1);
+}
+
+:root.theme-dark .footer-theme .footer-contact-icon {
+  color: #60a5fa;
+}
+
+:root.theme-dark .footer-theme .footer-bottom {
+  border-top-color: #333333;
+}
+
+:root.theme-dark .footer-theme .footer-bottom .footer-text {
+  color: #9ca3af;
+}
+
+:root.theme-dark .footer-theme .footer-bottom .footer-link {
+  color: #9ca3af;
+}
+
+:root.theme-dark .footer-theme .footer-bottom .footer-link:hover {
+  color: #d1d5db;
+}
+
+/* 页面背景主题 */
+:root.theme-light .page-theme {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+:root.theme-dark .page-theme {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* 卡片组件主题 */
+:root.theme-light .card-theme {
+  background-color: var(--bg-primary);
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-md);
+}
+
+:root.theme-dark .card-theme {
+  background-color: var(--bg-primary);
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* 按钮主题 */
+:root.theme-light .button-theme {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  font-weight: 600;
+}
+
+:root.theme-light .button-theme:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+:root.theme-dark .button-theme {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+  font-weight: 600;
+}
+
+:root.theme-dark .button-theme:hover {
+  background-color: #60a5fa;
+  border-color: #60a5fa;
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+}
+
+/* 输入框主题 */
+:root.theme-light .input-theme {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-color: var(--border-secondary);
+  border-width: 1.5px;
+}
+
+:root.theme-light .input-theme:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  outline: none;
+}
+
+:root.theme-light .input-theme::placeholder {
+  color: var(--text-muted);
+}
+
+:root.theme-dark .input-theme {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-color: var(--border-primary);
+  border-width: 1.5px;
+}
+
+:root.theme-dark .input-theme:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+  outline: none;
+}
+
+:root.theme-dark .input-theme::placeholder {
+  color: var(--text-muted);
+}
+
+/* 滚动条主题 */
+:root.theme-light ::-webkit-scrollbar-track {
+  background-color: var(--bg-secondary);
+}
+
+:root.theme-light ::-webkit-scrollbar-thumb {
+  background-color: var(--border-secondary);
+}
+
+:root.theme-light ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-tertiary);
+}
+
+:root.theme-dark ::-webkit-scrollbar-track {
+  background-color: var(--bg-tertiary);
+}
+
+:root.theme-dark ::-webkit-scrollbar-thumb {
+  background-color: var(--border-primary);
+}
+
+:root.theme-dark ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-secondary);
+}
+
+/* 选择文本主题 */
+:root.theme-light ::selection {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: var(--text-primary);
+}
+
+:root.theme-dark ::selection {
+  background-color: rgba(96, 165, 250, 0.3);
+  color: var(--text-primary);
+}
+
+/* 响应式主题调整 */
+@media (max-width: 768px) {
+  :root.theme-light .footer-theme {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  }
+
+  /* 移动端Header文字优化 */
+  :root.theme-light .header-theme .companyName {
+    font-size: 1.125rem;
+  }
+
+  :root.theme-light .header-theme .companySlogan {
+    font-size: 0.6875rem;
+  }
+
+  :root.theme-dark .header-theme .companyName {
+    font-size: 1.125rem;
+  }
+
+  :root.theme-dark .header-theme .companySlogan {
+    font-size: 0.6875rem;
+  }
+
+  /* 移动端导航链接优化 */
+  :root.theme-light .header-theme .mobileMenuLink {
+    color: #374151;
+    font-weight: 600;
+  }
+
+  :root.theme-light .header-theme .mobileMenuLink:hover {
+    color: #1f2937;
+  }
+
+  :root.theme-light .header-theme .mobileMenuLink.active {
+    color: #2563eb;
+  }
+
+  :root.theme-dark .header-theme .mobileMenuLink {
+    color: #f3f4f6;
+    font-weight: 600;
+  }
+
+  :root.theme-dark .header-theme .mobileMenuLink:hover {
+    color: #ffffff;
+  }
+
+  :root.theme-dark .header-theme .mobileMenuLink.active {
+    color: #93c5fd;
+  }
+}
+
+/* 高对比度模式适配 */
+@media (prefers-contrast: high) {
+  :root.theme-light {
+    --border-primary: #000000;
+    --border-secondary: #000000;
+  }
+  
+  :root.theme-dark {
+    --border-primary: #ffffff;
+    --border-secondary: #ffffff;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-transitioning,
+  :root.theme-transitioning * {
+    transition: none !important;
+  }
+}
