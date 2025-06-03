@@ -1,39 +1,264 @@
 .heroSection {
-  background: linear-gradient(to right, #2563eb, #9333ea);
+  /* 落地式设计：接近全屏高度 */
+  min-height: 90vh;
+  height: 90vh;
+
+  /* 增强的渐变背景 */
+  background: linear-gradient(
+    135deg,
+    #1e3a8a 0%,
+    #2563eb 25%,
+    #3b82f6 50%,
+    #6366f1 75%,
+    #8b5cf6 100%
+  );
+
+  /* 添加动态背景效果 */
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+
+  /* 叠加纹理效果 */
+  position: relative;
+  overflow: hidden;
+
   color: white;
-  padding: 5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 防止CLS */
+  contain: layout style;
+}
+
+/* 动画关键帧 */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 背景装饰元素 */
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.heroSection::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: float 20s ease-in-out infinite;
+  z-index: 1;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
   text-align: center;
+  position: relative;
+  z-index: 2;
+
+  /* 添加入场动画 */
+  animation: fadeInUp 1s ease-out;
 }
 
 .title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+
+  /* 文字效果 */
+  background: linear-gradient(
+    45deg,
+    #ffffff 0%,
+    #f8fafc 50%,
+    #e2e8f0 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* 文字阴影 */
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  /* 动画延迟 */
+  animation: fadeInUp 1s ease-out 0.3s both;
 }
 
 .subtitle {
-  font-size: 1.25rem;
-  opacity: 0.9;
+  font-size: 1.5rem;
+  font-weight: 400;
+  opacity: 0.95;
+  line-height: 1.4;
+  max-width: 600px;
+  margin: 0 auto;
+
+  /* 文字阴影 */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  /* 动画延迟 */
+  animation: fadeInUp 1s ease-out 0.6s both;
 }
 
+/* 移动端优化 */
+@media (max-width: 767px) {
+  .heroSection {
+    min-height: 70vh; /* 减少高度，适合小屏幕 */
+    height: 70vh;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .title {
+    font-size: 2.25rem; /* 减小标题字体 */
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 1rem; /* 减小副标题字体 */
+    line-height: 1.4;
+  }
+}
+
+/* 针对430px等小屏幕的特别优化 */
+@media (max-width: 480px) {
+  .heroSection {
+    min-height: 60vh; /* 进一步减少高度 */
+    height: 60vh;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .title {
+    font-size: 1.875rem; /* 更小的标题字体 */
+    margin-bottom: 0.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.9375rem; /* 更小的副标题字体 */
+    max-width: 90%; /* 限制宽度 */
+  }
+}
+
+/* 针对更小屏幕的额外优化 */
+@media (max-width: 375px) {
+  .heroSection {
+    min-height: 50vh;
+    height: 50vh;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .title {
+    font-size: 1.625rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+    max-width: 95%;
+  }
+}
+
+/* 平板端优化 */
 @media (min-width: 768px) {
   .title {
-    font-size: 4rem;
+    font-size: 4.5rem;
   }
-  
+
   .subtitle {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 }
 
+/* 桌面端优化 */
 @media (min-width: 1024px) {
+  .heroSection {
+    min-height: 95vh;
+    height: 95vh;
+  }
+
   .title {
     font-size: 6rem;
+    margin-bottom: 2rem;
+  }
+
+  .subtitle {
+    font-size: 2rem;
+  }
+}
+
+/* 大屏幕优化 */
+@media (min-width: 1440px) {
+  .title {
+    font-size: 7rem;
+  }
+
+  .subtitle {
+    font-size: 2.25rem;
+  }
+}
+
+/* 减少动画以提升性能 */
+@media (prefers-reduced-motion: reduce) {
+  .heroSection {
+    animation: none;
+  }
+
+  .heroSection::after {
+    animation: none;
+  }
+
+  .container,
+  .title,
+  .subtitle {
+    animation: none;
   }
 }

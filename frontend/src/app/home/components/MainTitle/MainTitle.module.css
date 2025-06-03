@@ -3,10 +3,43 @@
  */
 
 .mainTitle {
-  padding: 4rem 0;
+  padding: 5rem 0;
   text-align: center;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 197, 253, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.08) 0%,
+    rgba(147, 197, 253, 0.05) 50%,
+    rgba(99, 102, 241, 0.08) 100%
+  );
   border-bottom: 1px solid var(--border-primary);
+  position: relative;
+  overflow: hidden;
+
+  /* 添加微妙的装饰效果 */
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
+}
+
+/* 添加装饰性伪元素 */
+.mainTitle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+}
+
+.mainTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
 }
 
 .container {
@@ -18,34 +51,72 @@
 .content {
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .title {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
   color: var(--text-primary);
-  line-height: 1.2;
-  margin: 0 0 1rem 0;
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  line-height: 1.1;
+  margin: 0 0 1.5rem 0;
+  background: linear-gradient(
+    135deg,
+    #1e40af 0%,
+    #2563eb 25%,
+    #3b82f6 50%,
+    #6366f1 75%,
+    #8b5cf6 100%
+  );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
+  /* 添加文字阴影效果 */
+  filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.1));
+
+  /* 添加入场动画 */
+  animation: titleFadeIn 1s ease-out;
+}
+
+@keyframes titleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .subtitle {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: var(--text-secondary);
-  line-height: 1.4;
-  margin: 0 0 1.5rem 0;
+  line-height: 1.3;
+  margin: 0 0 2rem 0;
+
+  /* 添加微妙的渐变效果 */
+  background: linear-gradient(135deg, var(--text-secondary), var(--text-primary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* 添加入场动画 */
+  animation: titleFadeIn 1s ease-out 0.2s both;
 }
 
 .description {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   color: var(--text-tertiary);
-  line-height: 1.6;
+  line-height: 1.7;
   margin: 0;
   font-weight: 500;
+
+  /* 添加入场动画 */
+  animation: titleFadeIn 1s ease-out 0.4s both;
 }
 
 /* 响应式设计 */
@@ -71,20 +142,55 @@
   }
 }
 
+/* 针对430px等小屏幕移动设备的优化 */
 @media (max-width: 480px) {
   .mainTitle {
-    padding: 2.5rem 0;
+    padding: 2rem 0; /* 减少垂直间距 */
   }
-  
+
+  .container {
+    padding: 0 0.75rem; /* 减少水平间距 */
+  }
+
   .title {
-    font-size: 1.875rem;
+    font-size: 1.75rem; /* 进一步减小标题 */
+    margin-bottom: 1rem;
+    line-height: 1.1;
   }
-  
+
   .subtitle {
-    font-size: 1.125rem;
+    font-size: 1rem; /* 减小副标题 */
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
   }
-  
+
   .description {
+    font-size: 0.875rem; /* 减小描述文字 */
+    line-height: 1.6;
+  }
+}
+
+/* 针对更小屏幕的额外优化 */
+@media (max-width: 375px) {
+  .mainTitle {
+    padding: 1.5rem 0;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .subtitle {
     font-size: 0.9375rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .description {
+    font-size: 0.8125rem;
   }
 }

@@ -132,7 +132,7 @@ export const envConfig = {
   // 图片配置
   imageBaseUrl: process.env.NEXT_PUBLIC_IMAGE_BASE_URL || '/images',
   defaultImages: {
-    companyIntro: '/images/company-intro.jpg',
+    companyIntro: '/images/company-intro.svg',
     ogDefault: '/images/og-default.jpg',
     logo: '/images/logo.png',
     logoSvg: '/images/logo.svg',

@@ -217,67 +217,108 @@
   opacity: 0.8;
 }
 
-/* 移动端菜单按钮 */
+/* 移动端菜单按钮 - 优化版本 */
 .mobileMenuButton {
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;  /* 增大触摸区域 */
+  height: 44px; /* 增大触摸区域 */
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
-  border-radius: 6px;
-  transition: background-color 0.2s ease-in-out;
+  padding: 8px;  /* 添加内边距确保图标在按钮内 */
+  border-radius: 8px;  /* 增大圆角 */
+  transition: all 0.3s ease-in-out;
+  position: relative;
+
+  /* 添加微妙的边框 */
+  border: 1px solid transparent;
+
+  /* 确保按钮在容器内正确定位 */
+  flex-shrink: 0;
 }
 
 .mobileMenuButton:hover {
-  background-color: #f3f4f6;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: scale(1.05);
 }
 
+/* 深色模式下的悬停效果 */
+:global(.dark) .mobileMenuButton:hover {
+  background-color: rgba(147, 197, 253, 0.1);
+  border-color: rgba(147, 197, 253, 0.2);
+}
+
+.mobileMenuButton:active {
+  transform: scale(0.95);
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+:global(.dark) .mobileMenuButton:active {
+  background-color: rgba(147, 197, 253, 0.15);
+}
+
+/* 汉堡包图标 - 优化版本 */
 .hamburger {
-  width: 24px;
+  width: 20px;  /* 稍微减小以确保在按钮内 */
   height: 2px;
-  background-color: #374151;
-  border-radius: 1px;
-  transition: all 0.3s ease-in-out;
+  background-color: var(--text-primary, #374151);
+  border-radius: 2px;  /* 增大圆角 */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+
+  /* 确保图标居中 */
+  margin: 0 auto;
 }
 
 .hamburger::before,
 .hamburger::after {
   content: '';
   position: absolute;
-  width: 24px;
+  left: 0;  /* 确保对齐 */
+  width: 20px;
   height: 2px;
-  background-color: #374151;
-  border-radius: 1px;
-  transition: all 0.3s ease-in-out;
+  background-color: var(--text-primary, #374151);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hamburger::before {
-  top: -8px;
+  top: -7px;  /* 调整间距 */
 }
 
 .hamburger::after {
-  top: 8px;
+  top: 7px;   /* 调整间距 */
 }
 
-/* 移动端菜单打开状态 */
+/* 移动端菜单打开状态 - 优化的关闭图标 */
+.mobileMenuButton.open {
+  background-color: rgba(239, 68, 68, 0.1);  /* 红色背景提示关闭状态 */
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.mobileMenuButton.open:hover {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 .mobileMenuButton.open .hamburger {
-  background-color: transparent;
+  background-color: transparent;  /* 隐藏中间线 */
 }
 
 .mobileMenuButton.open .hamburger::before {
-  top: 0;
+  top: 0;  /* 移动到中心 */
   transform: rotate(45deg);
+  background-color: #ef4444;  /* 红色关闭图标 */
 }
 
 .mobileMenuButton.open .hamburger::after {
-  top: 0;
+  top: 0;  /* 移动到中心 */
   transform: rotate(-45deg);
+  background-color: #ef4444;  /* 红色关闭图标 */
 }
 
 /* 移动端菜单 */

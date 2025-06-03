@@ -125,11 +125,67 @@ export function generateStructuredData(data: BasePageData & {
       return {
         ...baseStructuredData,
         '@type': 'Organization',
-        logo: `${staticSEOConfig.siteUrl}/images/logo.png`,
-        contactPoint: {
-          '@type': 'ContactPoint',
-          telephone: '+86-xxx-xxxx-xxxx',
-          contactType: 'customer service'
+        name: '亚豪膜结构工程有限公司',
+        alternateName: '亚豪膜结构',
+        logo: `${staticSEOConfig.siteUrl}/images/logo.svg`,
+        image: `${staticSEOConfig.siteUrl}/images/logo.svg`,
+        foundingDate: '1994',
+        foundingLocation: {
+          '@type': 'Place',
+          name: '宁波市',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: '宁波市',
+            addressRegion: '浙江省',
+            addressCountry: 'CN'
+          }
+        },
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: '海曙区镇明路108号',
+          addressLocality: '宁波市',
+          addressRegion: '浙江省',
+          postalCode: '315000',
+          addressCountry: 'CN'
+        },
+        contactPoint: [
+          {
+            '@type': 'ContactPoint',
+            telephone: '+86-13957862987',
+            contactType: 'customer service',
+            areaServed: 'CN',
+            availableLanguage: 'Chinese'
+          },
+          {
+            '@type': 'ContactPoint',
+            email: 'zhaojunxi222@gmail.com',
+            contactType: 'customer service',
+            areaServed: 'CN',
+            availableLanguage: 'Chinese'
+          }
+        ],
+        sameAs: [
+          // 可以添加社交媒体链接
+        ],
+        knowsAbout: [
+          '膜结构设计',
+          '膜结构施工',
+          '张拉膜工程',
+          '膜结构建筑',
+          '空间膜结构'
+        ],
+        areaServed: {
+          '@type': 'Country',
+          name: '中国'
+        },
+        serviceArea: {
+          '@type': 'GeoCircle',
+          geoMidpoint: {
+            '@type': 'GeoCoordinates',
+            latitude: 29.8683,
+            longitude: 121.5440
+          },
+          geoRadius: '1000000'
         }
       }
       

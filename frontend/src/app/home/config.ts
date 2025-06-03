@@ -40,7 +40,7 @@ export const defaultDataConfig = {
   seoDescription: '我们是一家专业的解决方案提供商，致力于为客户提供优质的产品和服务。',
   companyIntroTitle: '关于我们',
   companyIntroText: '我们是一家专业的公司，致力于为客户提供最优质的产品和服务。',
-  companyIntroImage: '/images/company-intro.jpg',
+  companyIntroImage: '/images/company-intro.svg',
   productSectionTitle: '我们的产品',
   caseSectionTitle: '成功案例'
 } as const

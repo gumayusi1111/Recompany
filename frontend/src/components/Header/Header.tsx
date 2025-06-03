@@ -181,7 +181,16 @@ export function Header({
           />
           <div className={styles.companyInfo}>
             <h1 className={styles.companyName}>{companyInfo.name}</h1>
-            <p className={styles.companySlogan}>{companyInfo.slogan}</p>
+            <p
+              className={styles.companySlogan}
+              style={{
+                // 优化LCP性能：避免布局偏移和提升渲染性能
+                willChange: 'auto',
+                contain: 'layout style'
+              } as React.CSSProperties}
+            >
+              {companyInfo.slogan}
+            </p>
           </div>
         </Link>
 

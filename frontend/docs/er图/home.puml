@@ -1,40 +1,78 @@
-@startuml 首页
+@startuml home
 
 entity "首页" as Homepage {
   * 首页ID : 整数 <<PK>>
+}
+
+entity "SEO区域" as HomepageSEO {
+  * SEO_ID : 整数 <<PK>>
+  --
+  SEO大标题 : 字符串
+  SEO小标题 : 字符串
+  首页ID : 整数 <<FK>>
+}
+
+entity "公司介绍" as CompanyIntro {
+  * 公司介绍ID : 整数 <<PK>>
+  --
+  公司介绍文本 : 文本
+  公司介绍图片路径 : 字符串
+  首页ID : 整数 <<FK>>
+}
+
+entity "轮播图" as BannerSlide {
+  * 轮播图ID : 整数 <<PK>>
   --
   大标题 : 字符串
   小标题 : 字符串
-  SEO标题 : 字符串
-  公司介绍文本 : 文本
-  公司介绍图片路径 : 字符串
+  图片路径 : 字符串
+  首页ID : 整数 <<FK>>
 }
 
-entity "产品" as Product {
+entity "首页产品展示" as HomepageProduct {
+  * 展示ID : 整数 <<PK>>
+  --
+  首页ID : 整数 <<FK>>
+  产品ID : 整数 <<FK>>
+  排序 : 整数
+}
+
+entity "首页案例展示" as HomepageCase {
+  * 展示ID : 整数 <<PK>>
+  --
+  首页ID : 整数 <<FK>>
+  案例ID : 整数 <<FK>>
+  排序 : 整数
+}
+
+entity "产品中心" as ProductCenter {
   * 产品ID : 整数 <<PK>>
   --
   产品名称 : 字符串
   产品描述 : 文本
   产品图片路径 : 字符串
+  # 其他字段
 }
 
-entity "工程案例" as EngineeringCase {
+entity "案例中心" as EngineeringCaseCenter {
   * 案例ID : 整数 <<PK>>
   --
   案例名称 : 字符串
   案例描述 : 文本
   案例图片路径 : 字符串
+  案例类型 : 字符串
+  案例面积 : 字符串
+  客户名称 : 字符串
+  # 其他字段
 }
 
-entity "侧边导航" as SideNavigation {
-  * 导航ID : 整数 <<PK>>
-  --
-  导航名称 : 字符串
-  导航链接 : 字符串
-}
+Homepage ||--o{ HomepageSEO : "包含"
+Homepage ||--o{ CompanyIntro : "包含"
+Homepage ||--o{ BannerSlide : "包含多条轮播图"
+Homepage ||--o{ HomepageProduct : "关联产品"
+Homepage ||--o{ HomepageCase : "关联案例"
 
-Homepage ||--o{ Product : "包含多个"
-Homepage ||--o{ EngineeringCase : "包含多个"
-Homepage ||--o{ SideNavigation : "包含多个"
+HomepageProduct }o--|| ProductCenter : "对应产品"
+HomepageCase }o--|| EngineeringCaseCenter : "对应案例"
 
 @enduml

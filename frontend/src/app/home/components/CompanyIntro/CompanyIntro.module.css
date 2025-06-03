@@ -3,8 +3,20 @@
  */
 
 .companySection {
-  padding: 5rem 0;
-  background: var(--bg-primary);
+  padding: 6rem 0;
+  background: linear-gradient(
+    135deg,
+    var(--bg-primary) 0%,
+    rgba(59, 130, 246, 0.02) 50%,
+    var(--bg-primary) 100%
+  );
+  position: relative;
+  overflow: hidden;
+
+  /* 添加微妙的纹理效果 */
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
 }
 
 .container {
@@ -94,11 +106,39 @@
 
 .imageWrapper {
   position: relative;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
   background: var(--bg-secondary);
+
+  /* 防止CLS：确保容器尺寸稳定 */
   aspect-ratio: 4/3;
+  width: 100%;
+  height: 400px; /* 固定高度防止CLS */
+  max-height: 400px;
+  contain: layout style;
+
+  /* 确保图片正确显示 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 添加微妙的边框效果 */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  /* 悬停时的过渡效果 */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.imageWrapper:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 32px 64px rgba(0, 0, 0, 0.15),
+    0 16px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .image {
@@ -238,49 +278,97 @@
   }
 }
 
+/* 针对430px等小屏幕移动设备的特别优化 */
 @media (max-width: 480px) {
   .companySection {
-    padding: 3rem 0;
+    padding: 2.5rem 0; /* 减少垂直间距 */
+  }
+
+  .container {
+    padding: 0 0.75rem; /* 减少水平间距 */
   }
 
   .sectionHeader {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* 减少标题下方间距 */
   }
 
   .sectionTitle {
-    font-size: 1.75rem;
+    font-size: 1.5rem; /* 进一步减小标题字体 */
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
   }
 
   .sectionSubtitle {
-    font-size: 0.875rem;
+    font-size: 0.8125rem; /* 减小副标题字体 */
+    line-height: 1.3;
   }
 
   .content {
-    gap: 2rem;
+    gap: 1.5rem; /* 减少内容间距 */
+  }
+
+  .textContent {
+    padding: 0; /* 移除内边距 */
   }
 
   .description {
-    font-size: 0.9375rem;
-    line-height: 1.6;
+    font-size: 0.875rem; /* 减小描述文字 */
+    line-height: 1.5;
+    margin-bottom: 1rem;
   }
 
   .learnMoreText {
-    font-size: 0.875rem;
+    font-size: 0.8125rem; /* 减小按钮文字 */
+  }
+
+  /* 图片容器优化 */
+  .imageWrapper {
+    height: 250px; /* 固定较小的高度 */
+    max-height: 250px;
+    border-radius: 16px; /* 减小圆角 */
   }
 
   .overlayContent {
-    padding: 1rem;
+    padding: 0.75rem; /* 减少覆盖层内边距 */
   }
 
   .overlayTitle {
-    font-size: 1.125rem;
+    font-size: 1rem; /* 减小覆盖层标题 */
   }
 
   .overlaySubtitle {
-    font-size: 0.8125rem;
+    font-size: 0.75rem; /* 减小覆盖层副标题 */
   }
 
   .overlayDescription {
+    font-size: 0.6875rem; /* 减小覆盖层描述 */
+  }
+}
+
+/* 针对更小屏幕（如iPhone SE）的额外优化 */
+@media (max-width: 375px) {
+  .companySection {
+    padding: 2rem 0;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.375rem;
+  }
+
+  .sectionSubtitle {
     font-size: 0.75rem;
+  }
+
+  .description {
+    font-size: 0.8125rem;
+  }
+
+  .imageWrapper {
+    height: 200px;
+    max-height: 200px;
   }
 }

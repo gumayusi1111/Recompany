@@ -1,0 +1,71 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 渐变背景 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="structureGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- 膜结构建筑轮廓 -->
+  <path d="M50 350 Q150 200 300 250 Q450 200 550 350" fill="url(#structureGradient)" stroke="#1e40af" stroke-width="2"/>
+  
+  <!-- 支撑结构 -->
+  <line x1="150" y1="350" x2="150" y2="220" stroke="#1e40af" stroke-width="3"/>
+  <line x1="300" y1="350" x2="300" y2="250" stroke="#1e40af" stroke-width="3"/>
+  <line x1="450" y1="350" x2="450" y2="220" stroke="#1e40af" stroke-width="3"/>
+  
+  <!-- 膜结构细节 -->
+  <path d="M50 350 Q100 280 150 320 Q200 260 250 300 Q300 240 350 280 Q400 220 450 260 Q500 200 550 350" 
+        fill="none" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+  
+  <!-- 地面线 -->
+  <line x1="0" y1="350" x2="600" y2="350" stroke="#1e40af" stroke-width="4"/>
+  
+  <!-- 装饰性云朵 -->
+  <ellipse cx="120" cy="80" rx="25" ry="15" fill="#ffffff" opacity="0.3"/>
+  <ellipse cx="140" cy="75" rx="30" ry="18" fill="#ffffff" opacity="0.3"/>
+  <ellipse cx="160" cy="80" rx="20" ry="12" fill="#ffffff" opacity="0.3"/>
+  
+  <ellipse cx="420" cy="60" rx="20" ry="12" fill="#ffffff" opacity="0.3"/>
+  <ellipse cx="440" cy="55" rx="25" ry="15" fill="#ffffff" opacity="0.3"/>
+  <ellipse cx="460" cy="60" rx="18" ry="10" fill="#ffffff" opacity="0.3"/>
+  
+  <!-- 太阳 -->
+  <circle cx="500" cy="80" r="25" fill="#fbbf24" opacity="0.8"/>
+  <circle cx="500" cy="80" r="20" fill="#f59e0b"/>
+  
+  <!-- 太阳光线 -->
+  <line x1="500" y1="40" x2="500" y2="50" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="500" y1="110" x2="500" y2="120" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="460" y1="80" x2="470" y2="80" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="530" y1="80" x2="540" y2="80" stroke="#f59e0b" stroke-width="2"/>
+  
+  <!-- 公司标识文字 -->
+  <text x="300" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#ffffff">
+    亚豪膜结构工程
+  </text>
+  <text x="300" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#e2e8f0">
+    30年专业经验 · 膜结构领域专家
+  </text>
+  
+  <!-- 装饰性几何元素 -->
+  <polygon points="80,120 90,100 100,120" fill="#ffffff" opacity="0.4"/>
+  <polygon points="520,140 530,120 540,140" fill="#ffffff" opacity="0.4"/>
+  
+  <!-- 膜结构网格纹理 */
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect x="50" y="200" width="500" height="150" fill="url(#grid)"/>
+</svg>

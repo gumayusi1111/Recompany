@@ -1,0 +1,94 @@
+@startuml material_science
+!theme plain
+left to right direction
+
+skinparam nodesep 10
+skinparam ranksep 20
+
+package "材料科普页面" {
+  [导航栏] as header
+  [面包屑导航] as breadcrumb #lightgreen
+  [Banner] as banner
+  
+  package "主体内容区" {
+    package "左侧分类栏" as sidebar {
+      [材料分类] as categories #lightblue
+      [材料分类1] as cat1
+      [材料分类2] as cat2
+      [材料分类3] as cat3
+      [材料分类4] as cat4
+      [材料分类5] as cat5
+      
+      categories --> cat1
+      cat1 --> cat2
+      cat2 --> cat3
+      cat3 --> cat4
+      cat4 --> cat5
+      
+      note right of sidebar
+        **固定定位效果**
+        当页面滚动时
+        此分类栏保持固定位置
+        直到内容区底部
+      end note
+    }
+    
+    package "右侧内容区" as content {
+      top to bottom direction
+      
+      [科普文章1] as article1
+      [科普文章2] as article2
+      [科普文章3] as article3
+      [科普文章4] as article4
+      [科普文章5] as article5
+      [科普文章6] as article6
+      
+      article1 --> article2
+      article2 --> article3
+      article3 --> article4
+      article4 --> article5
+      article5 --> article6
+      
+      note right
+        **滚动内容区**
+        用户可上下滚动浏览
+        所有科普文章
+      end note
+    }
+  }
+  
+  package "热门文章" as popular {
+    [热门文章标题] as popular_title #lightblue
+    
+    package "热门卡片区" as popular_cards {
+      [热门文章1] as pop1
+      [热门文章2] as pop2
+      [热门文章3] as pop3
+      
+      pop1 -right-> pop2
+      pop2 -right-> pop3
+    }
+    
+    popular_title --> popular_cards
+  }
+  
+  [CTA行动召唤] as cta #pink
+  [页脚] as footer
+  
+  ' 页面结构连接
+  header --> breadcrumb
+  breadcrumb --> banner
+  banner --> content
+  content --> popular
+  popular --> cta
+  cta --> footer
+}
+
+' 关联分类栏和内容区
+sidebar -[hidden]down- content
+
+' 引用公共组件
+header .up.> [公共头部] : 引用
+footer .up.> [公共页脚] : 引用
+
+@enduml

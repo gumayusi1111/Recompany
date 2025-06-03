@@ -34,12 +34,18 @@ export function CompanyIntro({
           <div className={styles.imageContent}>
             <div className={styles.imageWrapper}>
               <Image
-                src={companyIntroImage || '/images/company-intro.jpg'}
+                src={companyIntroImage || '/images/company-intro.svg'}
                 alt="亚豪膜结构公司介绍"
                 width={600}
                 height={400}
                 className={styles.image}
                 priority={false}
+                style={{
+                  // 防止CLS：预设尺寸，与CSS保持一致
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
               />
               <div className={styles.imageOverlay}>
                 <div className={styles.overlayContent}>
