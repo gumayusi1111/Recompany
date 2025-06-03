@@ -1,0 +1,340 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== 轮播图/Hero Section =====
+model HeroSlide {
+  id              String   @id @default(cuid())
+  title           String   // 主标题 (H1)
+  subtitle        String   // 副标题
+  backgroundImage String   // 背景图片URL
+  order           Int      // 显示顺序
+  isActive        Boolean  @default(true) // 是否启用
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("hero_slides")
+}
+
+// ===== SEO H1标题区域 =====
+model SeoTitleSection {
+  id        String   @id @default(cuid())
+  mainTitle String   // 主标题
+  subtitle  String   // 副标题
+  isActive  Boolean  @default(true) // 是否启用
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("seo_title_sections")
+}
+
+// ===== 公司介绍部分 =====
+model CompanyIntroSection {
+  id        String   @id @default(cuid())
+  title     String   // 标题
+  content   String   @db.Text // 左侧文字内容 (支持富文本)
+  image     String   // 右侧图片URL
+  imageAlt  String   // 图片alt文本
+  isActive  Boolean  @default(true) // 是否启用
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("company_intro_sections")
+}
+
+// ===== 产品中心 =====
+model Product {
+  id               String   @id @default(cuid())
+  name             String   // 产品名称 (会成为案例中的type字段)
+  description      String   @db.Text // 产品描述
+  briefDescription String   // 简短描述 (用于首页预览)
+  image            String   // 产品图片
+  imageAlt         String   // 图片alt文本
+  category         String   // 产品分类
+  specifications   String?  @db.Text // 产品规格 (可选，详情页使用)
+  features         String[] // 产品特点 (可选，详情页使用)
+  applications     String?  @db.Text // 应用场景 (可选，详情页使用)
+  isActive         Boolean  @default(true) // 是否启用
+  isFeatured       Boolean  @default(false) // 是否在首页展示
+  order            Int      @default(0) // 显示顺序
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // 关联的工程案例
+  cases EngineeringCase[]
+
+  @@map("products")
+}
+
+// ===== 工程案例 =====
+model EngineeringCase {
+  id               String    @id @default(cuid())
+  title            String    // 案例标题
+  clientName       String    // 客户名称
+  type             String    // 案例类型 (对应产品名称)
+  area             Float     // 面积 (平方米)
+  location         String?   // 项目地点 (可选)
+  description      String    @db.Text // 案例描述
+  briefDescription String    // 简短描述 (用于首页预览)
+  image            String    // 主图片
+  imageAlt         String    // 图片alt文本
+  gallery          String[]  // 图片集 (可选，详情页使用)
+  completionDate   DateTime? // 完工日期 (可选)
+  projectDuration  Int?      // 项目周期 (天数，可选)
+  challenges       String?   @db.Text // 项目挑战 (可选，详情页使用)
+  solutions        String?   @db.Text // 解决方案 (可选，详情页使用)
+  isActive         Boolean   @default(true) // 是否启用
+  isFeatured       Boolean   @default(false) // 是否在首页展示
+  order            Int       @default(0) // 显示顺序
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // 关联的产品
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+
+  @@map("engineering_cases")
+}
+
+// ===== 首页配置 =====
+model HomepageConfig {
+  id                     String   @id @default(cuid())
+  // Hero Section配置
+  heroSectionTitle       String?
+  heroSectionSubtitle    String?
+  // 产品预览配置
+  productsPreviewTitle    String   @default("产品中心")
+  productsPreviewSubtitle String?
+  productsPreviewCount    Int      @default(6) // 显示多少个产品
+  // 案例预览配置
+  casesPreviewTitle       String   @default("工程案例")
+  casesPreviewSubtitle    String?
+  casesPreviewCount       Int      @default(6) // 显示多少个案例
+  // 其他配置
+  isActive                Boolean  @default(true)
+  updatedAt               DateTime @updatedAt
+
+  @@map("homepage_configs")
+}
+
+// ===== 管理员用户 =====
+model AdminUser {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  email        String    @unique
+  passwordHash String
+  role         AdminRole @default(ADMIN)
+  lastLoginAt  DateTime?
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // 关联的用户请求
+  assignedRequests UserRequest[]
+
+  @@map("admin_users")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
+// ===== 用户请求 =====
+model UserRequest {
+  id              String        @id @default(cuid())
+  type            RequestType
+  name            String
+  email           String
+  phone           String?
+  company         String?
+  message         String        @db.Text
+  productInterest String?       // 关联Product.name
+  status          RequestStatus @default(PENDING)
+  adminNotes      String?       @db.Text
+  assignedTo      String?       // 关联AdminUser.id
+  priority        Priority      @default(MEDIUM)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // 关联的管理员
+  assignedAdmin AdminUser? @relation(fields: [assignedTo], references: [id])
+
+  @@map("user_requests")
+}
+
+enum RequestType {
+  CONTACT
+  QUOTE
+  CONSULTATION
+}
+
+enum RequestStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  REJECTED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ===== 访问日志 =====
+model AccessLog {
+  id           String   @id @default(cuid())
+  ipAddress    String
+  userAgent    String   @db.Text
+  referer      String?
+  path         String
+  method       String
+  statusCode   Int
+  responseTime Int      // 响应时间(ms)
+  sessionId    String?
+  createdAt    DateTime @default(now())
+
+  @@map("access_logs")
+}
+
+// ===== 材料信息 =====
+model Material {
+  id               String   @id @default(cuid())
+  name             String   // 材料名称
+  description      String   @db.Text // 材料描述
+  briefDescription String   // 简短描述
+  image            String   // 材料图片
+  imageAlt         String   // 图片alt文本
+  category         String   // 材料分类
+  specifications   String?  @db.Text // 材料规格
+  properties       String[] // 材料特性
+  applications     String?  @db.Text // 应用场景
+  advantages       String[] // 材料优势
+  technicalData    String?  @db.Text // 技术参数
+  isActive         Boolean  @default(true) // 是否启用
+  isFeatured       Boolean  @default(false) // 是否推荐
+  order            Int      @default(0) // 显示顺序
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("materials")
+}
+
+// ===== 客户评价 =====
+model Review {
+  id          String      @id @default(cuid())
+  clientName  String      // 客户姓名
+  company     String?     // 客户公司
+  position    String?     // 职位
+  avatar      String?     // 头像
+  rating      Int         // 评分 (1-5)
+  content     String      @db.Text // 评价内容
+  projectType String?     // 项目类型
+  location    String?     // 项目地点
+  status      ReviewStatus @default(PENDING) // 审核状态
+  isActive    Boolean     @default(true) // 是否启用
+  isFeatured  Boolean     @default(false) // 是否推荐
+  order       Int         @default(0) // 显示顺序
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("reviews")
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ===== 新闻资讯 =====
+model News {
+  id               String      @id @default(cuid())
+  title            String      // 新闻标题
+  summary          String      // 新闻摘要
+  content          String      @db.Text // 新闻内容
+  image            String      // 封面图片
+  imageAlt         String      // 图片alt文本
+  category         String      // 新闻分类
+  tags             String[]    // 标签
+  author           String      @default("亚豪膜结构") // 作者
+  publishDate      DateTime?   // 发布日期
+  status           NewsStatus  @default(DRAFT) // 发布状态
+  isActive         Boolean     @default(true) // 是否启用
+  isFeatured       Boolean     @default(false) // 是否推荐
+  viewCount        Int         @default(0) // 浏览次数
+  order            Int         @default(0) // 显示顺序
+  seoTitle         String?     // SEO标题
+  seoDescription   String?     // SEO描述
+  seoKeywords      String[]    // SEO关键词
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@map("news")
+}
+
+enum NewsStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// ===== 联系信息 =====
+model ContactInfo {
+  id          String   @id @default(cuid())
+  type        String   // 联系类型: main, branch, service
+  name        String   // 名称
+  address     String   // 地址
+  phone       String   // 电话
+  email       String   // 邮箱
+  fax         String?  // 传真
+  website     String?  // 网站
+  workingHours String? // 工作时间
+  description String?  // 描述
+  latitude    Float?   // 纬度
+  longitude   Float?   // 经度
+  isActive    Boolean  @default(true) // 是否启用
+  order       Int      @default(0) // 显示顺序
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("contact_info")
+}
+
+// ===== 关于我们 =====
+model AboutSection {
+  id        String   @id @default(cuid())
+  type      String   // 章节类型: intro, history, culture, team, honor
+  title     String   // 章节标题
+  content   String   @db.Text // 章节内容
+  image     String?  // 章节图片
+  imageAlt  String?  // 图片alt文本
+  isActive  Boolean  @default(true) // 是否启用
+  order     Int      @default(0) // 显示顺序
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("about_sections")
+}
+
+// ===== 系统设置 =====
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  type      String   @default("string") // string, number, boolean, json
+  category  String   @default("general")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("system_settings")
+}

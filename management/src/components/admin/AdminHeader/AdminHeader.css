@@ -1,0 +1,65 @@
+/* 管理系统头部样式 */
+
+.admin-header {
+  @apply sticky top-0 z-30 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700;
+}
+
+.admin-header__content {
+  @apply flex items-center justify-between h-16 px-4 sm:px-6;
+}
+
+.admin-header__left {
+  @apply flex items-center flex-1;
+}
+
+.admin-header__menu-button {
+  @apply mr-4;
+}
+
+.admin-header__title-section {
+  @apply min-w-0 flex-1;
+}
+
+.admin-header__title {
+  @apply text-lg font-semibold text-gray-900 dark:text-white truncate;
+}
+
+.admin-header__right {
+  @apply flex items-center space-x-4;
+}
+
+/* 搜索框 */
+.admin-header__search {
+  @apply hidden md:block;
+}
+
+.admin-header__search-input {
+  @apply relative;
+}
+
+.admin-header__search-icon {
+  @apply absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400;
+}
+
+.admin-header__search-field {
+  @apply pl-10 pr-4 py-2 w-64 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-400 dark:focus:border-primary-400;
+}
+
+/* 通知按钮 */
+.admin-header__notification {
+  @apply relative;
+}
+
+.admin-header__notification-badge {
+  @apply absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center;
+}
+
+/* 设置按钮 */
+.admin-header__settings {
+  @apply text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300;
+}
+
+/* 日期显示 */
+.admin-header__date {
+  @apply hidden lg:block text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap;
+}

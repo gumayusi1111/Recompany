@@ -7,13 +7,13 @@ services:
       - ./backend:/app
       - /app/node_modules
     ports:
-      - "${PORT:-3001}:3001"
+      - "${BACKEND_PORT:-3002}:3002"
     env_file:
       - .env
     depends_on:
       - db
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3001/api/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:3002/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -37,6 +37,26 @@ services:
       retries: 3
       start_period: 30s
 
+  management:
+    build: ./management
+    volumes:
+      - ./management:/app
+      - /app/node_modules
+    environment:
+      - PORT=3001
+    ports:
+      - "${MANAGEMENT_PORT:-3001}:3001"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
   nginx:
     image: nginx:latest
     volumes:
@@ -47,8 +67,8 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - backend
       - frontend
+      - management
     healthcheck:
       test: ["CMD", "service", "nginx", "status"]
       interval: 30s

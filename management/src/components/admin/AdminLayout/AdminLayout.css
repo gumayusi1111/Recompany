@@ -1,0 +1,21 @@
+/* 管理系统布局样式 */
+
+.admin-layout {
+  @apply min-h-screen bg-gray-50 dark:bg-gray-900 lg:flex;
+}
+
+.admin-layout__overlay {
+  @apply fixed inset-0 z-40 bg-black bg-opacity-50;
+}
+
+.admin-layout__main {
+  @apply flex-1 lg:ml-64;
+}
+
+.admin-layout__content {
+  @apply flex-1;
+}
+
+.admin-layout__container {
+  @apply p-4 sm:p-6 lg:p-8;
+}

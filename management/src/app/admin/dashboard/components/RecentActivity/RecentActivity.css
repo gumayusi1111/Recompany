@@ -1,0 +1,78 @@
+/* 最近活动组件样式 */
+
+.recent-activity__list {
+  @apply space-y-4;
+}
+
+.recent-activity__item {
+  @apply flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200;
+}
+
+.recent-activity__icon {
+  @apply w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0;
+}
+
+.recent-activity__icon-emoji {
+  @apply text-sm;
+}
+
+.recent-activity__content {
+  @apply flex-1 min-w-0;
+}
+
+.recent-activity__header {
+  @apply flex items-center justify-between mb-1;
+}
+
+.recent-activity__title {
+  @apply text-sm font-medium text-gray-900 dark:text-white truncate;
+}
+
+.recent-activity__description {
+  @apply text-sm text-gray-600 dark:text-gray-400 mb-2;
+}
+
+.recent-activity__meta {
+  @apply flex items-center text-xs text-gray-500 dark:text-gray-400;
+}
+
+.recent-activity__user {
+  @apply font-medium;
+}
+
+.recent-activity__separator {
+  @apply mx-2;
+}
+
+.recent-activity__module {
+  @apply text-blue-600 dark:text-blue-400;
+}
+
+.recent-activity__time {
+  @apply whitespace-nowrap;
+}
+
+/* 骨架屏样式 */
+.recent-activity__skeleton {
+  @apply flex items-start space-x-3 p-3 animate-pulse;
+}
+
+.recent-activity__skeleton-icon {
+  @apply w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full;
+}
+
+.recent-activity__skeleton-content {
+  @apply flex-1 space-y-2;
+}
+
+.recent-activity__skeleton-title {
+  @apply h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4;
+}
+
+.recent-activity__skeleton-description {
+  @apply h-3 bg-gray-200 dark:bg-gray-700 rounded w-full;
+}
+
+.recent-activity__skeleton-meta {
+  @apply h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2;
+}

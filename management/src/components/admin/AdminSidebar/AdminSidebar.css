@@ -1,0 +1,147 @@
+/* 管理系统侧边栏样式 */
+
+.admin-sidebar {
+  @apply fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0;
+  transform: translateX(-100%);
+}
+
+.admin-sidebar--open {
+  transform: translateX(0);
+}
+
+/* 侧边栏头部 */
+.admin-sidebar__header {
+  @apply flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700;
+}
+
+.admin-sidebar__brand {
+  @apply flex items-center;
+}
+
+.admin-sidebar__logo {
+  @apply w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center;
+}
+
+.admin-sidebar__logo-text {
+  @apply text-white font-bold text-sm;
+}
+
+.admin-sidebar__title {
+  @apply ml-2 text-lg font-semibold text-gray-900 dark:text-white;
+}
+
+.admin-sidebar__close {
+  @apply p-1 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700;
+}
+
+/* 导航菜单 */
+.admin-sidebar__nav {
+  @apply mt-6 px-3 flex-1 overflow-y-auto;
+}
+
+.admin-sidebar__nav-list {
+  @apply space-y-1;
+}
+
+.admin-sidebar__nav-item {
+  @apply relative;
+}
+
+.admin-sidebar__nav-link {
+  @apply flex items-center w-full px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 text-left;
+}
+
+.admin-sidebar__nav-link--active {
+  @apply bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300;
+}
+
+.admin-sidebar__nav-link:not(.admin-sidebar__nav-link--active) {
+  @apply text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
+}
+
+.admin-sidebar__nav-link--expandable {
+  @apply justify-between;
+}
+
+.admin-sidebar__nav-icon {
+  @apply w-5 h-5 mr-3 flex-shrink-0;
+}
+
+.admin-sidebar__nav-text {
+  @apply truncate flex-1;
+}
+
+.admin-sidebar__nav-badge {
+  @apply ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[1.25rem] text-center;
+}
+
+.admin-sidebar__nav-arrow {
+  @apply ml-2 flex-shrink-0;
+}
+
+/* 子菜单 */
+.admin-sidebar__submenu {
+  @apply ml-8 mt-1 space-y-1 overflow-hidden transition-all duration-200;
+  max-height: 0;
+}
+
+.admin-sidebar__submenu--expanded {
+  max-height: 500px;
+}
+
+.admin-sidebar__submenu-link {
+  @apply flex items-center w-full px-3 py-2 text-sm rounded-md transition-colors duration-200 text-left;
+}
+
+.admin-sidebar__submenu-link--active {
+  @apply bg-primary-50 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400;
+}
+
+.admin-sidebar__submenu-link:not(.admin-sidebar__submenu-link--active) {
+  @apply text-gray-500 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700/50 dark:hover:text-gray-300;
+}
+
+.admin-sidebar__submenu-icon {
+  @apply w-4 h-4 mr-2 flex-shrink-0;
+}
+
+.admin-sidebar__submenu-text {
+  @apply truncate flex-1;
+}
+
+.admin-sidebar__submenu-badge {
+  @apply ml-auto bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[1rem] text-center;
+}
+
+/* 用户信息和登出 */
+.admin-sidebar__footer {
+  @apply absolute bottom-0 left-0 right-0 p-3 border-t border-gray-200 dark:border-gray-700;
+}
+
+.admin-sidebar__user {
+  @apply flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400;
+}
+
+.admin-sidebar__user-avatar {
+  @apply w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center mr-3;
+}
+
+.admin-sidebar__user-initial {
+  @apply text-xs font-medium;
+}
+
+.admin-sidebar__user-info {
+  @apply flex-1 min-w-0;
+}
+
+.admin-sidebar__user-name {
+  @apply truncate font-medium text-gray-900 dark:text-white;
+}
+
+.admin-sidebar__user-role {
+  @apply truncate text-xs;
+}
+
+.admin-sidebar__logout {
+  @apply flex items-center w-full px-3 py-2 mt-2 text-sm font-medium rounded-lg transition-colors duration-200 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20;
+}

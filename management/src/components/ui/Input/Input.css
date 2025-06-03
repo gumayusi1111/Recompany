@@ -1,0 +1,94 @@
+/* 输入框组件样式 */
+
+.input-container {
+  @apply w-full;
+}
+
+.input-label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+}
+
+.input-required {
+  @apply text-red-500 ml-1;
+}
+
+.input-wrapper {
+  @apply relative;
+}
+
+.input-base {
+  @apply w-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* 变体样式 */
+.input-default {
+  @apply border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-400 dark:focus:border-blue-400;
+}
+
+.input-filled {
+  @apply border-0 rounded-lg bg-gray-100 text-gray-900 placeholder-gray-500 focus:ring-blue-500 focus:bg-white dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-400 dark:focus:bg-gray-700;
+}
+
+.input-outline {
+  @apply border-2 border-gray-300 rounded-lg bg-transparent text-gray-900 placeholder-gray-500 focus:ring-0 focus:border-blue-500 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-400;
+}
+
+/* 尺寸样式 */
+.input-sm {
+  @apply px-3 py-1.5 text-sm;
+}
+
+.input-md {
+  @apply px-4 py-2 text-sm;
+}
+
+.input-lg {
+  @apply px-4 py-3 text-base;
+}
+
+/* 状态样式 */
+.input-error {
+  @apply border-red-300 focus:ring-red-500 focus:border-red-500 dark:border-red-600 dark:focus:ring-red-400 dark:focus:border-red-400;
+}
+
+.input-success {
+  @apply border-green-300 focus:ring-green-500 focus:border-green-500 dark:border-green-600 dark:focus:ring-green-400 dark:focus:border-green-400;
+}
+
+/* 图标样式 */
+.input-icon {
+  @apply absolute top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none;
+}
+
+.input-icon--left {
+  @apply left-3;
+}
+
+.input-icon--right {
+  @apply right-3;
+}
+
+.input--with-left-icon {
+  @apply pl-10;
+}
+
+.input--with-right-icon {
+  @apply pr-10;
+}
+
+/* 消息样式 */
+.input-message {
+  @apply mt-1 text-sm;
+}
+
+.input-error-text {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.input-success-text {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.input-helper-text {
+  @apply text-gray-500 dark:text-gray-400;
+}

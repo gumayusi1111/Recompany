@@ -1,0 +1,70 @@
+/* 模态框组件样式 */
+
+.modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm;
+}
+
+.modal-container {
+  @apply relative bg-white dark:bg-gray-800 rounded-xl shadow-xl max-h-[90vh] overflow-hidden;
+  animation: modalSlideIn 0.2s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 尺寸变体 */
+.modal-container--sm {
+  @apply w-full max-w-sm;
+}
+
+.modal-container--md {
+  @apply w-full max-w-md;
+}
+
+.modal-container--lg {
+  @apply w-full max-w-lg;
+}
+
+.modal-container--xl {
+  @apply w-full max-w-2xl;
+}
+
+.modal-container--full {
+  @apply w-full max-w-6xl;
+}
+
+/* 头部 */
+.modal-header {
+  @apply flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700;
+}
+
+.modal-title {
+  @apply text-lg font-semibold text-gray-900 dark:text-white;
+}
+
+.modal-close {
+  @apply text-gray-400 hover:text-gray-600 dark:hover:text-gray-300;
+}
+
+/* 内容 */
+.modal-content {
+  @apply overflow-y-auto;
+  max-height: calc(90vh - 120px);
+}
+
+.modal-body {
+  @apply p-6;
+}
+
+/* 底部 */
+.modal-footer {
+  @apply flex items-center justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-750;
+}
