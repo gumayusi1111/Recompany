@@ -1,6 +1,13 @@
 import express from 'express'
 import healthRouter from './health'
 import homeRouter from '../modules/home/routes'
+import aboutRouter from '../modules/about/routes'
+import productsRouter from '../modules/products/routes'
+import casesRouter from '../modules/cases/routes'  // 重命名：projects -> cases
+import materialsRouter from '../modules/materials/routes'
+import testimonialsRouter from '../modules/testimonials/routes'
+import newsRouter from '../modules/news/routes'
+import contactRouter from '../modules/contact/routes'
 
 const router = express.Router()
 
@@ -9,17 +16,12 @@ router.use('/health', healthRouter)
 
 // 业务模块路由
 router.use('/home', homeRouter)
-
-// 注释掉暂时不存在的模块，避免构建错误
-// import productsRouter from '../modules/products/route'
-// import projectsRouter from '../modules/projects/route'
-// import materialsRouter from '../modules/materials/route'
-// import testimonialsRouter from '../modules/testimonials/route'
-// import newsRouter from '../modules/news/route'
-// router.use('/products', productsRouter)
-// router.use('/projects', projectsRouter)
-// router.use('/materials', materialsRouter)
-// router.use('/testimonials', testimonialsRouter)
-// router.use('/news', newsRouter)
+router.use('/about', aboutRouter)
+router.use('/products', productsRouter)
+router.use('/cases', casesRouter)  // 统一使用 cases 路由
+router.use('/materials', materialsRouter)
+router.use('/testimonials', testimonialsRouter)
+router.use('/news', newsRouter)
+router.use('/contact', contactRouter)
 
 export default router

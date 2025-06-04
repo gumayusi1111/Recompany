@@ -10,7 +10,7 @@
  * API配置
  */
 export const apiConfig = {
-  baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001',
+  baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3002',
   timeout: 10000,
   retryAttempts: 2,
   retryDelay: 1500,

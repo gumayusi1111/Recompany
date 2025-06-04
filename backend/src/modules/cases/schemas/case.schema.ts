@@ -1,43 +1,40 @@
+/**
+ * 工程案例模块数据验证模式
+ * 使用Zod进行数据验证和类型推断
+ */
 import { z } from 'zod';
 
 /**
- * 工程案例验证模式
+ * 工程案例基本数据结构验证模式
  */
-export const EngineeringCaseSchema = z.object({
+export const CaseSchema = z.object({
   id: z.string(),
-  name: z.string().optional(),
-  description: z.string().optional(),
-  imagePath: z.string().optional(),
-  caseType: z.string().optional(),
-  area: z.string().optional(),
-  clientName: z.string().optional(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  name: z.string({
+    required_error: '工程案例名称是必需的',
+    invalid_type_error: '工程案例名称必须是字符串'
+  }),
+  description: z.string({
+    invalid_type_error: '描述必须是字符串'
+  }).optional()
 });
 
 /**
  * 创建工程案例请求验证模式
  */
-export const CreateEngineeringCaseSchema = z.object({
-  name: z.string().min(1, '案例名称不能为空'),
-  description: z.string().optional(),
-  imagePath: z.string().url('图片路径格式不正确').optional(),
-  caseType: z.string().min(1, '案例类型不能为空').optional(),
-  area: z.string().optional(),
-  clientName: z.string().min(1, '客户名称不能为空').optional(),
-});
+export const CreateCaseSchema = CaseSchema.omit({ id: true });
 
 /**
  * 更新工程案例请求验证模式
  */
-export const UpdateEngineeringCaseSchema = CreateEngineeringCaseSchema.partial();
+export const UpdateCaseSchema = CaseSchema.partial().omit({ id: true });
 
 // 导出类型
-export type EngineeringCase = z.infer<typeof EngineeringCaseSchema>;
-export type CreateEngineeringCaseDto = z.infer<typeof CreateEngineeringCaseSchema>;
-export type UpdateEngineeringCaseDto = z.infer<typeof UpdateEngineeringCaseSchema>;
+export type Case = z.infer<typeof CaseSchema>;
+export type CaseList = Case[];
 
-// 兼容旧类型定义
-export type Case = EngineeringCase;
-export type CaseList = EngineeringCase[];
-export type Cases = CaseList;
+// 保留与原schema.ts兼容的类型（向后兼容）
+export const ProjectSchema = CaseSchema;
+export const CreateProjectSchema = CreateCaseSchema;
+export const UpdateProjectSchema = UpdateCaseSchema;
+export type Project = Case;
+export type Projects = Case[];

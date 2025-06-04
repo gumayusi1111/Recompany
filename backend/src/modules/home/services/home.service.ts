@@ -7,25 +7,117 @@ import { prisma } from '../../../lib/prisma';
 import { Prisma } from '@prisma/client';
 
 /**
+ * 获取静态默认首页数据（用于数据库连接失败时的兜底）
+ */
+function getDefaultHomePageData() {
+  return {
+    id: 'default-home-page',
+    seoMainTitle: '亚豪膜结构 - 专业膜结构解决方案',
+    seoSubTitle: '30年专业经验 · 膜结构领域专家',
+    seoKeywords: '膜结构,张拉膜,膜结构工程,膜结构设计,膜结构施工,亚豪膜结构',
+    seoDescription: '亚豪膜结构成立于1994年，拥有30年专业经验，专注于膜结构设计与施工，为客户提供全方位的膜结构解决方案。',
+    companyIntroTitle: '关于亚豪膜结构',
+    companyIntroText: '亚豪膜结构成立于1994年，三十年来始终专注于膜结构设计与施工。致力于为客户提供安全、美观、耐火的空间解决方案。我们运用技术创新与工程品质并重，深耕大型市政、交通、体育等高端领域，力求成为行业信赖的高质量服务标杆。',
+    companyIntroImage: '/images/company-intro.svg',
+    productSectionTitle: '我们的产品',
+    caseSectionTitle: '成功案例',
+    bannerSlides: [
+      {
+        id: 'slide-1',
+        title: '专业膜结构解决方案',
+        description: '30年专业经验，为您提供优质的膜结构服务',
+        imagePath: '/images/banner-1.jpg',
+        sortOrder: 1
+      }
+    ],
+    featuredProducts: [
+      {
+        id: 'product-1',
+        name: '张拉膜结构',
+        description: '采用高强度膜材和钢结构，适用于体育场馆、展览中心等大跨度建筑',
+        imagePath: '/images/product-1.jpg',
+        sortOrder: 1
+      },
+      {
+        id: 'product-2',
+        name: '充气膜结构',
+        description: '快速搭建，适用于临时建筑、应急设施等场景',
+        imagePath: '/images/product-2.jpg',
+        sortOrder: 2
+      },
+      {
+        id: 'product-3',
+        name: '骨架膜结构',
+        description: '结构稳定，造型多样，适用于商业建筑、景观建筑',
+        imagePath: '/images/product-3.jpg',
+        sortOrder: 3
+      }
+    ],
+    featuredCases: [
+      {
+        id: 'case-1',
+        title: '宁波体育中心膜结构工程',
+        description: '大型体育场馆膜结构设计与施工，面积达15000平方米',
+        imagePath: '/images/case-1.jpg',
+        client: '宁波市体育局',
+        sortOrder: 1
+      },
+      {
+        id: 'case-2',
+        title: '杭州展览中心张拉膜',
+        description: '现代化展览中心膜结构屋顶，创新设计获得建筑奖项',
+        imagePath: '/images/case-2.jpg',
+        client: '杭州展览集团',
+        sortOrder: 2
+      }
+    ],
+    pageConfig: {
+      theme: 'default',
+      layout: 'standard',
+      showBanner: true,
+      showProducts: true,
+      showCases: true
+    },
+    isActive: true,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
+}
+
+/**
  * 获取首页数据
  * 返回当前激活的首页配置
  */
 export const getHomePage = async () => {
   try {
-    // 获取激活的首页数据
-    let homePage = await prisma.homePage.findFirst({
-      where: { isActive: true }
-    });
+    // 尝试从数据库获取激活的首页数据
+    let homePage;
+
+    try {
+      homePage = await prisma.homePage.findFirst({
+        where: { isActive: true }
+      });
+    } catch (dbError) {
+      console.warn('数据库连接失败，使用默认数据:', dbError);
+      // 如果数据库连接失败，返回默认数据
+      return getDefaultHomePageData();
+    }
 
     // 如果没有激活的首页数据，创建默认数据
     if (!homePage) {
-      homePage = await createDefaultHomePage();
+      try {
+        homePage = await createDefaultHomePage();
+      } catch (createError) {
+        console.warn('创建默认数据失败，使用静态默认数据:', createError);
+        return getDefaultHomePageData();
+      }
     }
 
     return homePage;
   } catch (error) {
     console.error('Error in getHomePage:', error);
-    throw new Error('获取首页数据失败');
+    // 最后的兜底方案：返回静态默认数据
+    return getDefaultHomePageData();
   }
 };
 

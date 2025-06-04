@@ -23,10 +23,14 @@ export function CompanyIntro({
               <p className={styles.description}>
                 亚豪膜结构成立于1994年，三十年来始终专注于膜结构设计与施工。致力于为客户提供安全、美观、耐火的空间解决方案。我们运用技术创新与工程品质并重，深耕大型市政、交通、体育等高端领域，力求成为行业信赖的高质量服务标杆。
               </p>
-              <div className={styles.learnMore}>
+              <a
+                href="/about"
+                className={styles.learnMore}
+                title="了解更多关于亚豪膜结构的信息"
+              >
                 <span className={styles.learnMoreText}>了解更多</span>
                 <span className={styles.arrow}>→</span>
-              </div>
+              </a>
             </div>
           </div>
 

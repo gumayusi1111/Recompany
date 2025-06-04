@@ -6,7 +6,7 @@
 import { ApiError, Product, Project, Material, Testimonial, News } from './types';
 
 // 从环境变量获取API基础URL
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3001';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3002';
 
 // 基础请求方法
 async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -42,14 +42,17 @@ export const productsAPI = {
   delete: (id: string) => fetchAPI<{success: boolean}>(`/products/${id}`, { method: 'DELETE' }),
 };
 
-// 项目相关API
-export const projectsAPI = {
-  getAll: () => fetchAPI<Project[]>('/projects'),
-  getById: (id: string) => fetchAPI<Project>(`/projects/${id}`),
-  create: (data: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>) => fetchAPI<Project>('/projects', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id: string, data: Partial<Project>) => fetchAPI<Project>(`/projects/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id: string) => fetchAPI<{success: boolean}>(`/projects/${id}`, { method: 'DELETE' }),
+// 工程案例相关API (原项目API，现已重命名为cases)
+export const casesAPI = {
+  getAll: () => fetchAPI<Project[]>('/cases'),
+  getById: (id: string) => fetchAPI<Project>(`/cases/${id}`),
+  create: (data: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>) => fetchAPI<Project>('/cases', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id: string, data: Partial<Project>) => fetchAPI<Project>(`/cases/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id: string) => fetchAPI<{success: boolean}>(`/cases/${id}`, { method: 'DELETE' }),
 };
+
+// 保持向后兼容的别名
+export const projectsAPI = casesAPI;
 
 // 材料相关API
 export const materialsAPI = {
@@ -81,7 +84,8 @@ export const newsAPI = {
 // 统一导出所有API
 const api = {
   products: productsAPI,
-  projects: projectsAPI,
+  cases: casesAPI,
+  projects: projectsAPI, // 向后兼容别名
   materials: materialsAPI,
   testimonials: testimonialsAPI,
   news: newsAPI,

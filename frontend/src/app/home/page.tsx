@@ -16,6 +16,7 @@ import {
   useHomePageError,
   useHomePageActions
 } from '@/stores/pages/homeStore'
+import styles from './page.module.css'
 
 // 懒加载非关键组件
 const CompanyIntro = lazy(() => import('./components/CompanyIntro/CompanyIntro').then(module => ({ default: module.CompanyIntro })))
@@ -59,6 +60,8 @@ export default function HomePage() {
   const error = useHomePageError()
   const { fetchData } = useHomePageActions()
 
+
+
   // 组件挂载时获取数据
   useEffect(() => {
     fetchData()
@@ -87,7 +90,7 @@ export default function HomePage() {
   if (!homeData) return <NoDataComponent />
 
   return (
-    <>
+    <div className={styles.homePage}>
       <SEOHead data={homeData} />
 
       {/* 性能监控 */}
@@ -108,7 +111,7 @@ export default function HomePage() {
       />
 
       {/* 关键内容 - 立即加载 */}
-      <section id="hero-section">
+      <section id="hero-section" className={`${styles.section} ${styles.heroSection}`}>
         <HeroSection
           seoMainTitle={homeData.seoMainTitle}
           seoSubTitle={homeData.seoSubTitle}
@@ -120,7 +123,7 @@ export default function HomePage() {
       {/* Banner组件已移除 - 根据用户要求 */}
 
       {/* 主标题区块 */}
-      <section id="main-title">
+      <section id="main-title" className={`${styles.section} ${styles.mainTitleSection}`}>
         <MainTitle
           title="专业膜结构解决方案"
           subtitle="30年专业经验 · 膜结构领域专家"
@@ -128,7 +131,7 @@ export default function HomePage() {
         />
       </section>
 
-      <section id="company-intro">
+      <section id="company-intro" className={`${styles.section} ${styles.companyIntroSection}`}>
         <Suspense fallback={<SectionLoader />}>
           <CompanyIntro
             companyIntroTitle={homeData.companyIntroTitle}
@@ -138,7 +141,7 @@ export default function HomePage() {
         </Suspense>
       </section>
 
-      <section id="products-section">
+      <section id="products-section" className={`${styles.section} ${styles.productsSection}`}>
         <Suspense fallback={<SectionLoader />}>
           <ProductSection
             products={homeData.featuredProducts}
@@ -148,7 +151,7 @@ export default function HomePage() {
         </Suspense>
       </section>
 
-      <section id="cases-section">
+      <section id="cases-section" className={`${styles.section} ${styles.casesSection}`}>
         <Suspense fallback={<SectionLoader />}>
           <CaseSection
             cases={homeData.featuredCases}
@@ -157,6 +160,6 @@ export default function HomePage() {
           />
         </Suspense>
       </section>
-    </>
+    </div>
   )
 }

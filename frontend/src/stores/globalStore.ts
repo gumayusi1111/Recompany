@@ -37,12 +37,17 @@ export const useGlobalStore = create<GlobalState>()(
           // 应用主题到DOM
           if (typeof window !== 'undefined') {
             const root = window.document.documentElement
+
+            // 移除旧的主题类和属性
             root.classList.remove('light', 'dark', 'theme-light', 'theme-dark')
+            root.removeAttribute('data-theme')
 
             if (theme === 'system') {
               const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+              root.setAttribute('data-theme', systemTheme)
               root.classList.add(systemTheme, `theme-${systemTheme}`)
             } else {
+              root.setAttribute('data-theme', theme)
               root.classList.add(theme, `theme-${theme}`)
             }
 

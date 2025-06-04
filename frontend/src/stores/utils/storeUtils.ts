@@ -70,7 +70,7 @@ export function createPageStore<T>(
               lastFetchTime: Date.now(),
               fetchCount: state.fetchCount + 1
             })
-            
+
             console.log(`✅ [${storeName}] 数据获取成功`)
             
             // 输出性能报告

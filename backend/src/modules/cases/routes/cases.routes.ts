@@ -1,29 +1,29 @@
 import express from 'express';
 // 使用相对路径导入中间件
 import { validateRequest } from '../../../middleware/validateRequest';
-import { CreateProjectSchema, UpdateProjectSchema } from '../schemas/project.schema';
-import * as projectsController from '../controllers';
+import { CreateProjectSchema, UpdateProjectSchema } from '../schemas/case.schema';
+import * as casesController from '../controllers';
 
 const router = express.Router();
 
 /**
  * @swagger
- * /api/projects:
+ * /api/cases:
  *   get:
- *     summary: 获取所有项目
- *     tags: [Projects]
+ *     summary: 获取所有工程案例
+ *     tags: [Cases]
  *     responses:
  *       200:
- *         description: 成功获取项目列表
+ *         description: 成功获取工程案例列表
  */
-router.get('/', projectsController.getAllProjects);
+router.get('/', casesController.getAllProjects);
 
 /**
  * @swagger
- * /api/projects/{id}:
+ * /api/cases/{id}:
  *   get:
- *     summary: 获取单个项目
- *     tags: [Projects]
+ *     summary: 获取单个工程案例
+ *     tags: [Cases]
  *     parameters:
  *       - in: path
  *         name: id
@@ -32,18 +32,18 @@ router.get('/', projectsController.getAllProjects);
  *           type: string
  *     responses:
  *       200:
- *         description: 成功获取项目
+ *         description: 成功获取工程案例
  *       404:
- *         description: 项目不存在
+ *         description: 工程案例不存在
  */
-router.get('/:id', projectsController.getProjectById);
+router.get('/:id', casesController.getProjectById);
 
 /**
  * @swagger
- * /api/projects:
+ * /api/cases:
  *   post:
- *     summary: 创建新项目
- *     tags: [Projects]
+ *     summary: 创建新工程案例
+ *     tags: [Cases]
  *     requestBody:
  *       required: true
  *       content:
@@ -52,18 +52,18 @@ router.get('/:id', projectsController.getProjectById);
  *             $ref: '#/components/schemas/CreateProject'
  *     responses:
  *       201:
- *         description: 项目创建成功
+ *         description: 工程案例创建成功
  *       400:
  *         description: 无效的输入
  */
-router.post('/', validateRequest(CreateProjectSchema), projectsController.createProject);
+router.post('/', validateRequest(CreateProjectSchema), casesController.createProject);
 
 /**
  * @swagger
- * /api/projects/{id}:
+ * /api/cases/{id}:
  *   put:
- *     summary: 更新项目
- *     tags: [Projects]
+ *     summary: 更新工程案例
+ *     tags: [Cases]
  *     parameters:
  *       - in: path
  *         name: id
@@ -78,20 +78,20 @@ router.post('/', validateRequest(CreateProjectSchema), projectsController.create
  *             $ref: '#/components/schemas/UpdateProject'
  *     responses:
  *       200:
- *         description: 项目更新成功
+ *         description: 工程案例更新成功
  *       400:
  *         description: 无效的输入
  *       404:
- *         description: 项目不存在
+ *         description: 工程案例不存在
  */
-router.put('/:id', validateRequest(UpdateProjectSchema), projectsController.updateProject);
+router.put('/:id', validateRequest(UpdateProjectSchema), casesController.updateProject);
 
 /**
  * @swagger
- * /api/projects/{id}:
+ * /api/cases/{id}:
  *   delete:
- *     summary: 删除项目
- *     tags: [Projects]
+ *     summary: 删除工程案例
+ *     tags: [Cases]
  *     parameters:
  *       - in: path
  *         name: id
@@ -100,10 +100,10 @@ router.put('/:id', validateRequest(UpdateProjectSchema), projectsController.upda
  *           type: string
  *     responses:
  *       200:
- *         description: 项目删除成功
+ *         description: 工程案例删除成功
  *       404:
- *         description: 项目不存在
+ *         description: 工程案例不存在
  */
-router.delete('/:id', projectsController.deleteProject);
+router.delete('/:id', casesController.deleteProject);
 
 export default router;

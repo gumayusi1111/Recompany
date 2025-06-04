@@ -1,0 +1,344 @@
+/**
+ * Home页面样式 - 现代化美化版本
+ * 整体布局和区块间的视觉连贯性
+ * 增强用户体验和视觉效果
+ */
+
+/* 页面主容器 */
+.homePage {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 区块间的分隔线效果 */
+.section {
+  position: relative;
+  isolation: isolate;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(59, 130, 246, 0.3) 50%, 
+    transparent 100%);
+  z-index: 1;
+}
+
+.section:first-child::before {
+  display: none;
+}
+
+/* Hero区块特殊样式 */
+.heroSection {
+  position: relative;
+  z-index: 2;
+}
+
+.heroSection::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.8) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 主标题区块 */
+.mainTitleSection {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(248, 250, 252, 0.9) 50%, 
+    rgba(241, 245, 249, 0.95) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(229, 231, 235, 0.6);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.mainTitleSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(147, 197, 253, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* 公司介绍区块 */
+.companyIntroSection {
+  background: linear-gradient(135deg, 
+    var(--bg-primary, #ffffff) 0%, 
+    rgba(59, 130, 246, 0.02) 50%, 
+    var(--bg-primary, #ffffff) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.companyIntroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 75% 75%, rgba(99, 102, 241, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* 产品区块 */
+.productsSection {
+  background: linear-gradient(135deg, 
+    rgba(248, 250, 252, 0.8) 0%, 
+    rgba(241, 245, 249, 0.9) 50%, 
+    rgba(248, 250, 252, 0.8) 100%);
+  position: relative;
+  padding: 5rem 0;
+  border-top: 1px solid rgba(229, 231, 235, 0.5);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+.productsSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(59, 130, 246, 0.2) 50%, 
+    transparent 100%);
+}
+
+.productsSection::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(99, 102, 241, 0.15) 50%, 
+    transparent 100%);
+}
+
+/* 案例区块 */
+.casesSection {
+  background: linear-gradient(135deg, 
+    var(--bg-primary, #ffffff) 0%, 
+    rgba(147, 197, 253, 0.02) 50%, 
+    var(--bg-primary, #ffffff) 100%);
+  position: relative;
+  padding: 5rem 0;
+}
+
+.casesSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 30% 70%, rgba(147, 197, 253, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* 区块标题统一样式 */
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, 
+    var(--text-primary, #1f2937) 0%, 
+    var(--text-secondary, #374151) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    #60a5fa 0%, 
+    #3b82f6 50%, 
+    #2563eb 100%);
+  border-radius: 2px;
+}
+
+/* 内容容器统一样式 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* 卡片网格布局 */
+.cardGrid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 卡片基础样式 */
+.card {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(248, 250, 252, 0.8) 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(229, 231, 235, 0.6);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.05) 0%, 
+    rgba(147, 197, 253, 0.03) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.12),
+    0 4px 15px rgba(59, 130, 246, 0.1);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .sectionTitle {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .productsSection,
+  .casesSection {
+    padding: 3rem 0;
+  }
+  
+  .cardGrid {
+    gap: 1.5rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .productsSection,
+  .casesSection {
+    padding: 2rem 0;
+  }
+  
+  .cardGrid {
+    gap: 1rem;
+  }
+  
+  .card {
+    padding: 1.25rem;
+  }
+}
+
+/* 无障碍设计 */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .section::before,
+  .heroSection::after {
+    transition: none;
+  }
+  
+  .card:hover {
+    transform: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .card {
+    border-width: 2px;
+    border-color: #000000;
+  }
+  
+  .section::before,
+  .productsSection::before,
+  .productsSection::after {
+    background: #000000;
+  }
+}

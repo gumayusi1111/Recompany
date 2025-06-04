@@ -58,6 +58,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
+      <head>
+        {/* Logo预加载 - 提高稳定性 */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/logo.png"
+          type="image/png"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/logo.svg"
+          type="image/svg+xml"
+        />
+        {/* 防止FOUC (Flash of Unstyled Content) */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            .logo-container {
+              width: 50px;
+              height: 50px;
+              display: inline-block;
+              background: transparent;
+            }
+          `
+        }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

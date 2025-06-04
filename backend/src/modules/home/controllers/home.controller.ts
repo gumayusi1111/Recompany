@@ -2,15 +2,29 @@ import { Request, Response } from 'express';
 import * as homeService from '../services';
 
 /**
- * 获取所有首页数据
+ * 获取当前激活的首页数据（前端首页使用）
  */
 export const getAllHome = async (req: Request, res: Response): Promise<void> => {
   try {
-    const homes = await homeService.getAllHome();
-    res.json({ code: 0, msg: 'success', data: homes });
+    console.log('📡 收到首页数据请求')
+
+    // 获取当前激活的首页数据
+    const activeHome = await homeService.getHomePage();
+
+    console.log('✅ 首页数据获取成功:', {
+      id: activeHome.id,
+      isActive: activeHome.isActive,
+      hasData: !!activeHome
+    })
+
+    res.json({ code: 0, msg: 'success', data: activeHome });
   } catch (error) {
-    console.error('Error in getAllHome:', error);
-    res.status(500).json({ code: 500, msg: '服务器内部错误', data: null });
+    console.error('❌ 首页数据获取失败:', error);
+    res.status(500).json({
+      code: 500,
+      msg: error instanceof Error ? error.message : '服务器内部错误',
+      data: null
+    });
   }
 };
 

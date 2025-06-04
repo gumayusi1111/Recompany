@@ -178,6 +178,23 @@ export function Header({
             height={companyInfo.logo.height || 50}
             className={styles.logo}
             priority
+            quality={90}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+Wq/Z"
+            sizes="(max-width: 768px) 40px, 50px"
+            style={{
+              // 防止CLS和重绘
+              width: 'auto',
+              height: 'auto',
+              maxWidth: '50px',
+              maxHeight: '50px'
+            }}
+            onLoad={() => {
+              // Logo加载完成后的回调，可以用于性能监控
+              if (process.env.NODE_ENV === 'development') {
+                console.log('Logo loaded successfully')
+              }
+            }}
           />
           <div className={styles.companyInfo}>
             <h1 className={styles.companyName}>{companyInfo.name}</h1>

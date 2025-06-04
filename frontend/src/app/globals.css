@@ -1,8 +1,140 @@
 @import "tailwindcss";
 
+/* 白天模式（默认） */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Header专用变量 */
+  --header-bg: rgba(255, 255, 255, 0.98);
+  --header-bg-secondary: rgba(248, 250, 252, 0.95);
+  --header-border: rgba(229, 231, 235, 0.8);
+  --header-shadow: rgba(0, 0, 0, 0.1);
+
+  /* 文字颜色变量 */
+  --text-primary: #1f2937;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+
+  /* 导航变量 */
+  --nav-bg: rgba(255, 255, 255, 0.1);
+  --nav-border: rgba(255, 255, 255, 0.2);
+  --nav-link-color: #374151;
+  --nav-link-hover: #ffffff;
+
+  /* 移动端菜单变量 */
+  --mobile-menu-bg: rgba(255, 255, 255, 0.98);
+  --mobile-menu-bg-secondary: rgba(248, 250, 252, 0.95);
+  --mobile-menu-shadow: rgba(0, 0, 0, 0.15);
+
+  /* PageNavigation专用变量 */
+  --page-nav-bg: rgba(255, 255, 255, 0.95);
+  --page-nav-bg-secondary: rgba(248, 250, 252, 0.92);
+  --page-nav-border: rgba(255, 255, 255, 0.2);
+  --page-nav-shadow: rgba(0, 0, 0, 0.12);
+  --page-nav-text: #374151;
+  --page-nav-text-hover: #2563eb;
+  --page-nav-text-active: #ffffff;
+  --page-nav-item-bg: rgba(255, 255, 255, 0.1);
+  --page-nav-item-border: rgba(229, 231, 235, 0.3);
+  --page-nav-item-hover-bg: rgba(59, 130, 246, 0.1);
+  --page-nav-item-hover-border: rgba(59, 130, 246, 0.3);
+  --page-nav-item-active-bg: rgba(59, 130, 246, 0.9);
+  --page-nav-item-active-border: rgba(59, 130, 246, 0.5);
+  --page-nav-back-to-top-bg: rgba(255, 255, 255, 0.9);
+  --page-nav-back-to-top-text: #6b7280;
+}
+
+/* 夜间模式 */
+[data-theme="dark"] {
+  --background: #121212;
+  --foreground: #ededed;
+
+  /* Header专用变量 - 夜间模式 */
+  --header-bg: rgba(18, 18, 18, 0.98);
+  --header-bg-secondary: rgba(26, 26, 26, 0.95);
+  --header-border: rgba(55, 65, 81, 0.8);
+  --header-shadow: rgba(0, 0, 0, 0.3);
+
+  /* 文字颜色变量 - 夜间模式 */
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-muted: #9ca3af;
+
+  /* 导航变量 - 夜间模式 */
+  --nav-bg: rgba(31, 41, 55, 0.3);
+  --nav-border: rgba(75, 85, 99, 0.4);
+  --nav-link-color: #e5e7eb;
+  --nav-link-hover: #ffffff;
+
+  /* 移动端菜单变量 - 夜间模式 */
+  --mobile-menu-bg: rgba(18, 18, 18, 0.98);
+  --mobile-menu-bg-secondary: rgba(26, 26, 26, 0.95);
+  --mobile-menu-shadow: rgba(0, 0, 0, 0.5);
+
+  /* PageNavigation专用变量 - 夜间模式 */
+  --page-nav-bg: rgba(18, 18, 18, 0.95);
+  --page-nav-bg-secondary: rgba(26, 26, 26, 0.92);
+  --page-nav-border: rgba(75, 85, 99, 0.4);
+  --page-nav-shadow: rgba(0, 0, 0, 0.5);
+  --page-nav-text: #e5e7eb;
+  --page-nav-text-hover: #93c5fd;
+  --page-nav-text-active: #ffffff;
+  --page-nav-item-bg: rgba(31, 41, 55, 0.3);
+  --page-nav-item-border: rgba(75, 85, 99, 0.4);
+  --page-nav-item-hover-bg: rgba(59, 130, 246, 0.2);
+  --page-nav-item-hover-border: rgba(59, 130, 246, 0.5);
+  --page-nav-item-active-bg: rgba(59, 130, 246, 0.8);
+  --page-nav-item-active-border: rgba(59, 130, 246, 0.6);
+  --page-nav-back-to-top-bg: rgba(18, 18, 18, 0.9);
+  --page-nav-back-to-top-text: #9ca3af;
+}
+
+/* 系统主题检测 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background: #121212;
+    --foreground: #ededed;
+
+    /* Header专用变量 - 系统夜间模式 */
+    --header-bg: rgba(18, 18, 18, 0.98);
+    --header-bg-secondary: rgba(26, 26, 26, 0.95);
+    --header-border: rgba(55, 65, 81, 0.8);
+    --header-shadow: rgba(0, 0, 0, 0.3);
+
+    /* 文字颜色变量 - 系统夜间模式 */
+    --text-primary: #f9fafb;
+    --text-secondary: #e5e7eb;
+    --text-muted: #9ca3af;
+
+    /* 导航变量 - 系统夜间模式 */
+    --nav-bg: rgba(31, 41, 55, 0.3);
+    --nav-border: rgba(75, 85, 99, 0.4);
+    --nav-link-color: #e5e7eb;
+    --nav-link-hover: #ffffff;
+
+    /* 移动端菜单变量 - 系统夜间模式 */
+    --mobile-menu-bg: rgba(18, 18, 18, 0.98);
+    --mobile-menu-bg-secondary: rgba(26, 26, 26, 0.95);
+    --mobile-menu-shadow: rgba(0, 0, 0, 0.5);
+
+    /* PageNavigation专用变量 - 系统夜间模式 */
+    --page-nav-bg: rgba(18, 18, 18, 0.95);
+    --page-nav-bg-secondary: rgba(26, 26, 26, 0.92);
+    --page-nav-border: rgba(75, 85, 99, 0.4);
+    --page-nav-shadow: rgba(0, 0, 0, 0.5);
+    --page-nav-text: #e5e7eb;
+    --page-nav-text-hover: #93c5fd;
+    --page-nav-text-active: #ffffff;
+    --page-nav-item-bg: rgba(31, 41, 55, 0.3);
+    --page-nav-item-border: rgba(75, 85, 99, 0.4);
+    --page-nav-item-hover-bg: rgba(59, 130, 246, 0.2);
+    --page-nav-item-hover-border: rgba(59, 130, 246, 0.5);
+    --page-nav-item-active-bg: rgba(59, 130, 246, 0.8);
+    --page-nav-item-active-border: rgba(59, 130, 246, 0.6);
+    --page-nav-back-to-top-bg: rgba(18, 18, 18, 0.9);
+    --page-nav-back-to-top-text: #9ca3af;
+  }
 }
 
 @theme inline {
@@ -12,15 +144,9 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

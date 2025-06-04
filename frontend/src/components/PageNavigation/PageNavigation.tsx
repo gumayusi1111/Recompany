@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { PageNavigationProps, NavigationState } from './types'
+import styles from './PageNavigation.module.css'
 
 // 简单的向上箭头图标组件
 const ChevronUpIcon = ({ className }: { className?: string }) => (
@@ -136,25 +137,24 @@ export function PageNavigation({
     return null
   }
 
-  // 桌面端样式
-  const desktopStyles = {
-    container: `fixed ${position}-6 top-1/2 transform -translate-y-1/2 z-50`,
-    nav: 'bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-3',
-    list: 'space-y-1',
-    item: 'group relative flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ease-in-out',
-    backToTop: 'w-full flex items-center justify-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 group'
-  }
+  // 构建容器类名
+  const containerClasses = [
+    styles.container,
+    styles[position],
+    state.isVisible ? styles.visible : styles.hidden,
+    className
+  ].filter(Boolean).join(' ')
 
   return (
     <div
-      className={`${desktopStyles.container} ${className}`}
+      className={containerClasses}
       data-mobile={false}
       data-visible={state.isVisible}
       data-testid="page-navigation-desktop"
     >
-      <nav className={desktopStyles.nav}>
+      <nav className={styles.nav}>
         {/* 导航项目 */}
-        <ul className={desktopStyles.list}>
+        <ul className={styles.list}>
           {items.map((item) => {
             const elementId = item.href.replace('#', '')
             const isActive = state.activeSection === elementId
@@ -164,35 +164,17 @@ export function PageNavigation({
                 <a
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`
-                    ${desktopStyles.item}
-                    ${isActive
-                      ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-900/20 dark:hover:to-indigo-900/20 hover:text-blue-700 dark:hover:text-blue-300 hover:scale-102'
-                    }
-                  `}
+                  className={`${styles.item} ${isActive ? styles.active : ''}`}
                   title={item.label}
                 >
                   {/* 激活指示器 */}
-                  <div className={`
-                    absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 rounded-r transition-all duration-300
-                    ${isActive
-                      ? 'bg-white opacity-100 shadow-lg'
-                      : 'bg-blue-500 opacity-0 group-hover:opacity-50'
-                    }
-                  `} />
+                  <div className={styles.indicator} />
 
                   {/* 导航点 */}
-                  <div className={`
-                    w-3 h-3 rounded-full mr-4 transition-all duration-300 flex-shrink-0
-                    ${isActive
-                      ? 'bg-white shadow-lg scale-110'
-                      : 'bg-gray-400 dark:bg-gray-500 group-hover:bg-blue-500 group-hover:scale-110'
-                    }
-                  `} />
+                  <div className={styles.dot} />
 
                   {/* 标签文字 */}
-                  <span className="whitespace-nowrap">
+                  <span className={styles.label}>
                     {item.label}
                   </span>
                 </a>
@@ -202,17 +184,14 @@ export function PageNavigation({
 
           {/* 回到顶部按钮 */}
           {showBackToTop && (
-            <li className="mt-4 pt-4 border-t border-gray-200/50 dark:border-gray-600/50">
+            <li className={styles.backToTop}>
               <button
                 onClick={scrollToTop}
-                className={`
-                  ${desktopStyles.backToTop}
-                  text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 hover:text-gray-900 dark:hover:text-gray-200
-                `}
+                className={styles.backToTopButton}
                 title="回到顶部"
               >
-                <ChevronUpIcon className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:-translate-y-1" />
-                <span className="font-medium">回到顶部</span>
+                <ChevronUpIcon className={styles.backToTopIcon} />
+                <span>回到顶部</span>
               </button>
             </li>
           )}

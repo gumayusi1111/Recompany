@@ -1,38 +1,109 @@
+/* 案例区块样式 - 现代化增强版 */
 .caseSection {
-  padding: 4rem 0;
+  padding: 5rem 0;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(248, 250, 252, 0.9) 50%,
+    rgba(255, 255, 255, 0.95) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.caseSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 30% 70%, rgba(147, 197, 253, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-weight: 700;
   text-align: center;
-  margin-bottom: 3rem;
-  color: #1f2937;
+  margin-bottom: 3.5rem;
+  background: linear-gradient(135deg,
+    #1f2937 0%,
+    #374151 50%,
+    #059669 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg,
+    #34d399 0%,
+    #10b981 50%,
+    #059669 100%);
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
 }
 
 .grid {
   display: grid;
-  gap: 2rem;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
 }
 
 @media (min-width: 768px) {
+  .caseSection {
+    padding: 6rem 0;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
   }
-  
+
   .title {
     font-size: 3rem;
+    margin-bottom: 4rem;
   }
 }
 
 @media (min-width: 1024px) {
   .title {
-    font-size: 4rem;
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .caseSection {
+    padding: 3rem 0;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .grid {
+    gap: 1.5rem;
   }
 }
