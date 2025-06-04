@@ -1,56 +1,67 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Eye, EyeOff, Lock, User, AlertCircle } from 'lucide-react'
+import { useAuthStore } from '@/stores/authStore'
+import { useAppStore } from '@/stores/appStore'
 
-interface LoginForm {
+interface LoginFormData {
   username: string
   password: string
 }
 
-export default function LoginPage() {
+// 登录组件内部实现
+function LoginFormComponent({ redirectTo }: { redirectTo: string }) {
   const router = useRouter()
+
   const [mounted, setMounted] = useState(false)
-  const [form, setForm] = useState<LoginForm>({
+  const [form, setForm] = useState<LoginFormData>({
     username: '',
     password: ''
   })
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
+
+  const { login, isLoading, error, clearError, isAuthenticated } = useAuthStore()
+  const { setGlobalLoading } = useAppStore()
 
   // 避免水合错误
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  // 如果已经登录，重定向到管理面板
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace(redirectTo)
+    }
+  }, [isAuthenticated, router, redirectTo])
+
+  // 清除错误信息
+  useEffect(() => {
+    return () => clearError()
+  }, [clearError])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
-    setError('')
 
+    if (!form.username || !form.password) {
+      return
+    }
+
+    setGlobalLoading(true)
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
+      const success = await login({
+        username: form.username,
+        password: form.password
       })
 
-      const data = await response.json()
-
-      if (data.success) {
-        // 登录成功，重定向到仪表盘
-        router.push('/admin/dashboard')
-      } else {
-        setError(data.error || '登录失败')
+      if (success) {
+        // 登录成功，重定向
+        router.replace(redirectTo)
       }
-    } catch (error) {
-      setError('网络错误，请稍后重试')
     } finally {
-      setIsLoading(false)
+      setGlobalLoading(false)
     }
   }
 
@@ -61,7 +72,9 @@ export default function LoginPage() {
       [name]: value
     }))
     // 清除错误信息
-    if (error) setError('')
+    if (error) {
+      clearError()
+    }
   }
 
   // 避免水合错误，等待客户端挂载
@@ -209,5 +222,38 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+// 使用useSearchParams的包装组件
+function LoginPageWithParams() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect') || '/admin/dashboard'
+
+  return <LoginFormComponent redirectTo={redirectTo} />
+}
+
+// 主导出组件，包装在Suspense中
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="text-center">
+            <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
+              <Lock className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              亚豪膜结构
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              管理系统登录
+            </p>
+          </div>
+        </div>
+      </div>
+    }>
+      <LoginPageWithParams />
+    </Suspense>
   )
 }

@@ -7,8 +7,8 @@ import jwt from 'jsonwebtoken'
 import { AdminUser, AdminRole } from '@/types/database'
 
 // JWT配置
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production'
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d'
+const JWT_SECRET: string = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production'
+const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || '7d'
 
 // JWT载荷接口
 export interface JWTPayload {
@@ -35,7 +35,7 @@ export function generateToken(user: Pick<AdminUser, 'id' | 'username' | 'email' 
     expiresIn: JWT_EXPIRES_IN,
     issuer: 'membrane-management',
     audience: 'membrane-admin',
-  })
+  } as jwt.SignOptions)
 }
 
 /**

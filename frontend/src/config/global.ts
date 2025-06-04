@@ -238,11 +238,11 @@ export function validateConfig() {
  */
 export function getConfigValue(path: string, defaultValue?: unknown) {
   const keys = path.split('.')
-  let current: any = globalConfig
+  let current: Record<string, unknown> | unknown = globalConfig
 
   for (const key of keys) {
     if (current && typeof current === 'object' && key in current) {
-      current = current[key]
+      current = (current as Record<string, unknown>)[key]
     } else {
       return defaultValue
     }

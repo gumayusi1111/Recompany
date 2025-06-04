@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { ProductCardProps } from './types'
 
 export function ProductCard({ product }: ProductCardProps) {
@@ -38,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* 底部操作区 */}
         <div className="flex justify-center">
-          <a
+          <Link
             href="/products"
             className="relative px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 active:scale-95 overflow-hidden group/btn w-full text-center block"
             title={`查看${product.name}详情 - 亚豪膜结构`}
@@ -46,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {/* 按钮光效 */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></div>
             <span className="relative">查看详情</span>
-          </a>
+          </Link>
         </div>
       </div>
 

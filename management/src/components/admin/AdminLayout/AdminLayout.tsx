@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { AdminSidebar } from '../AdminSidebar'
 import { AdminHeader } from '../AdminHeader'
-import { navigation, getPageTitle } from '@/config/routes'
+import { ADMIN_NAVIGATION, getPageTitle } from '@/config/routes'
 import './AdminLayout.css'
 
 interface AdminLayoutProps {
@@ -51,7 +51,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       <AdminSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        navigation={navigation}
+        navigation={ADMIN_NAVIGATION}
         currentPath={pathname}
       />
 

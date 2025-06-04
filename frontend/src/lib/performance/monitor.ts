@@ -182,7 +182,7 @@ class PerformanceMonitor {
                 startTime: eventEntry.startTime,
                 processingStart: eventEntry.processingStart,
                 processingEnd: eventEntry.processingEnd,
-                target: (entry as any).target?.tagName || 'unknown'
+                target: (entry as PerformanceEventTiming & { target?: { tagName?: string } }).target?.tagName || 'unknown'
               })
             }
           }

@@ -88,6 +88,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   const newContact: Contact = {
     id: generateId(),
     ...validation.data,
+    status: validation.data.status || 'new',
     createdAt: formatDate(),
     updatedAt: formatDate()
   }

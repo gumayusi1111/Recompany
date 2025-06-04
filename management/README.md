@@ -1,29 +1,34 @@
 # 亚豪膜结构管理系统
 
-基于 Next.js 15 + TypeScript + Prisma 构建的现代化后台管理系统，专为亚豪膜结构公司网站内容管理而设计。
+基于 Next.js 15 + TypeScript 构建的现代化管理系统，为亚豪膜结构公司提供完整的内容管理和业务操作功能。
 
 ## 🚀 项目特性
 
 ### 技术栈
 - **框架**: Next.js 15 + TypeScript + App Router
 - **数据库**: PostgreSQL + Prisma ORM
-- **样式**: Tailwind CSS 4 + CSS Modules
+- **样式**: Tailwind CSS 4
 - **状态管理**: Zustand
-- **认证**: 自定义JWT认证
+- **认证**: JWT认证 + 权限管理
 - **数据验证**: Zod
 - **UI组件**: Lucide React Icons
-- **图表**: Recharts
-- **富文本**: React Quill
+- **API集成**: 统一的API客户端
 
 ### 核心功能
-- 🔐 **安全认证**: JWT token + 中间件路由保护
-- 📊 **仪表盘**: 实时统计数据和系统监控
+- 🔐 **完整认证系统**: JWT认证、权限管理、会话持久化
+- 🎨 **现代化UI**: 响应式设计、明暗主题切换
+- 📊 **数据管理**: 完整的CRUD操作、分页、搜索、批量操作
+- 🔔 **通知系统**: 全局通知和消息提示
+- 🛡️ **路由保护**: 基于中间件的认证和权限检查
+- 📱 **移动端适配**: 完整的移动端支持
 - 🏠 **首页管理**: 轮播图、SEO标题、公司介绍管理
 - 📦 **产品管理**: 完整的产品CRUD操作
 - 🏗️ **案例管理**: 工程案例展示和管理
+- 💬 **评价管理**: 客户评价审核和管理
+- 📰 **新闻管理**: 新闻发布和编辑
+- 🗂️ **材料管理**: 材料信息和规格管理
 - 💬 **请求管理**: 用户咨询和报价请求处理
 - ⚙️ **系统设置**: 管理员账户和网站配置
-- 📱 **响应式设计**: 支持桌面和移动设备
 
 ## 🛠️ 快速开始
 
@@ -94,10 +99,15 @@ management/
 │   ├── app/                    # Next.js App Router
 │   │   ├── admin/             # 管理系统页面
 │   │   │   ├── dashboard/     # 仪表盘
-│   │   │   ├── content/       # 内容管理
 │   │   │   ├── products/      # 产品管理
 │   │   │   ├── cases/         # 案例管理
-│   │   │   ├── requests/      # 请求管理
+│   │   │   ├── materials/     # 材料管理
+│   │   │   ├── reviews/       # 评价管理
+│   │   │   ├── news/          # 新闻管理
+│   │   │   ├── requests/      # 用户请求
+│   │   │   ├── home/          # 首页管理
+│   │   │   ├── contact/       # 联系管理
+│   │   │   ├── about/         # 关于管理
 │   │   │   └── settings/      # 系统设置
 │   │   ├── api/               # API路由
 │   │   │   ├── admin/         # 管理API
@@ -114,6 +124,14 @@ management/
 │   │   ├── db/                # 数据库操作
 │   │   └── utils/             # 工具函数
 │   ├── stores/                # Zustand状态管理
+│   │   ├── authStore.ts       # 认证状态
+│   │   ├── appStore.ts        # 应用状态
+│   │   └── dataStore.ts       # 数据状态
+│   ├── services/              # 服务层
+│   │   └── dataService.ts     # 数据服务
+│   ├── config/                # 配置文件
+│   │   ├── api.ts             # API配置
+│   │   └── routes.ts          # 路由配置
 │   ├── types/                 # TypeScript类型定义
 │   └── middleware.ts          # Next.js中间件
 ├── prisma/
@@ -264,6 +282,15 @@ NEXTAUTH_URL=https://your-domain.com
 
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
 
+## 📚 详细文档
+
+查看 [FRAMEWORK_GUIDE.md](./FRAMEWORK_GUIDE.md) 获取完整的开发指南，包括：
+- 详细的技术架构说明
+- 状态管理使用指南
+- API集成示例
+- 组件开发指南
+- 部署和优化建议
+
 ## 📞 支持
 
 如有问题或建议，请联系：
@@ -272,4 +299,4 @@ NEXTAUTH_URL=https://your-domain.com
 
 ---
 
-© 2024 亚豪膜结构. 保留所有权利.
+© 2025 亚豪膜结构工程有限公司. 保留所有权利.

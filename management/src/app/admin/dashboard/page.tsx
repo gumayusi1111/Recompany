@@ -5,9 +5,12 @@
 
 'use client'
 
+import { useEffect } from 'react'
 import { PageHeader } from '@/components/admin/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { StatsCards, RecentActivity } from './components'
+import { useAppStore, setPageMeta } from '@/stores/appStore'
+import { useAuthStore } from '@/stores/authStore'
 import {
   BarChart3,
   Package,
@@ -19,10 +22,19 @@ import {
 
 
 export default function DashboardPage() {
+  const { user } = useAuthStore()
+
+  // 设置页面元信息
+  useEffect(() => {
+    setPageMeta('仪表盘', [
+      { label: '管理系统' }
+    ])
+  }, [])
+
   return (
     <div className="space-y-6">
       <PageHeader
-        title="仪表板"
+        title={`欢迎回来，${user?.username || '管理员'}！`}
         description="系统概览和数据统计"
       />
 

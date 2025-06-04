@@ -116,6 +116,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   const newQuoteRequest: QuoteRequest = {
     id: generateId(),
     ...validation.data,
+    attachments: validation.data.attachments || [],
     status: 'new',
     priority: 'medium',
     createdAt: formatDate(),

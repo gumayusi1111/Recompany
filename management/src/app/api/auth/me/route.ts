@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     
     if (!token) {
       const authHeader = request.headers.get('authorization')
-      token = extractTokenFromHeader(authHeader)
+      token = extractTokenFromHeader(authHeader) || undefined
     }
 
     if (!token) {

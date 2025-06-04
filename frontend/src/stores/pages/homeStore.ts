@@ -30,7 +30,7 @@ export const useHomePageStore = createPageStore<HomePageData>(
  * 首页选择器
  */
 export const homePageSelectors = {
-  ...createSelectors<HomePageData>(useHomePageStore),
+  ...createSelectors<HomePageData>(),
   
   // 特定数据选择器
   seoData: (state: { data: HomePageData | null }) => state.data ? {

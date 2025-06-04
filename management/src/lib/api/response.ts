@@ -3,7 +3,7 @@
  * 统一API响应格式和错误处理
  */
 
-import { NextResponse } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import { ZodError } from 'zod'
 
 // API响应接口
@@ -193,9 +193,9 @@ export function handleApiError(error: unknown): NextResponse {
 
 // 创建API处理器的高阶函数
 export function createApiHandler(
-  handler: (request: Request, context?: any) => Promise<NextResponse>
+  handler: (request: NextRequest, context?: any) => Promise<NextResponse>
 ) {
-  return async (request: Request, context?: any): Promise<NextResponse> => {
+  return async (request: NextRequest, context?: any): Promise<NextResponse> => {
     try {
       return await handler(request, context)
     } catch (error) {

@@ -86,7 +86,7 @@ export default function HomePage() {
 
   // 渲染状态处理
   if (loading) return <LoadingComponent />
-  if (error) return <ErrorComponent error={error} />
+  if (error) return <ErrorComponent error={error || '未知错误'} />
   if (!homeData) return <NoDataComponent />
 
   return (

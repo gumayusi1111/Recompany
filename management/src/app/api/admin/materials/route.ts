@@ -91,6 +91,8 @@ export const POST = withErrorHandling(requireAuth(async (request: NextRequest, u
   const newMaterial: Material = {
     id: generateId(),
     ...validation.data,
+    status: validation.data.status || 'draft',
+    specifications: validation.data.specifications || {},
     createdAt: formatDate(),
     updatedAt: formatDate(),
     createdBy: user.id

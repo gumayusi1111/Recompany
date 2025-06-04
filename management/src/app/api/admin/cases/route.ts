@@ -88,6 +88,9 @@ export const POST = withErrorHandling(requireAuth(async (request: NextRequest, u
   const newCase: Case = {
     id: generateId(),
     ...validation.data,
+    images: validation.data.images || [],
+    tags: validation.data.tags || [],
+    status: validation.data.status || 'draft',
     createdAt: formatDate(),
     updatedAt: formatDate(),
     createdBy: user.id

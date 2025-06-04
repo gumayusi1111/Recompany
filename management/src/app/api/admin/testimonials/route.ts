@@ -92,6 +92,7 @@ export const POST = withErrorHandling(requireAuth(async (request: NextRequest, u
   const newTestimonial: Testimonial = {
     id: generateId(),
     ...validation.data,
+    isPublished: validation.data.isPublished ?? true,
     createdAt: formatDate(),
     updatedAt: formatDate()
   }

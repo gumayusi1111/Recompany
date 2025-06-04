@@ -192,6 +192,9 @@ export const POST = withErrorHandling(requireAuth(async (request: NextRequest, u
   const newContent: HomeContent = {
     id: Math.max(...homeContent.map(item => item.id)) + 1,
     ...validation.data,
+    images: validation.data.images || [],
+    isActive: validation.data.isActive ?? true,
+    settings: validation.data.settings || {},
     updatedAt: formatDate(),
     updatedBy: user.id
   }

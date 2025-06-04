@@ -51,7 +51,7 @@ export interface PageConfig {
   showBanner: boolean
   showProducts: boolean
   showCases: boolean
-  [key: string]: any
+  [key: string]: unknown
 }
 
 /**
@@ -102,7 +102,7 @@ export interface Product extends BaseEntity {
   category?: string
   price?: number
   features?: string[]
-  specifications?: Record<string, any>
+  specifications?: Record<string, unknown>
 }
 
 /**
@@ -166,7 +166,7 @@ export interface User extends BaseEntity {
 export interface AppError {
   code: string
   message: string
-  details?: any
+  details?: unknown
   timestamp: number
 }
 
@@ -278,9 +278,9 @@ export interface ConfigurableComponentProps extends BaseComponentProps {
  * 响应式配置类型
  */
 export interface ResponsiveConfig {
-  mobile: any
-  tablet: any
-  desktop: any
+  mobile: unknown
+  tablet: unknown
+  desktop: unknown
 }
 
 /**

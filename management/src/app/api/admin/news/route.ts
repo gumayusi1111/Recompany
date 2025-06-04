@@ -94,6 +94,8 @@ export const POST = withErrorHandling(requireAuth(async (request: NextRequest, u
   const newNews: News = {
     id: generateId(),
     ...validation.data,
+    status: validation.data.status || 'draft',
+    tags: validation.data.tags || [],
     createdAt: formatDate(),
     updatedAt: formatDate(),
     createdBy: user.id

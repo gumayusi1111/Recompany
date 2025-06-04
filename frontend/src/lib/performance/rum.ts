@@ -294,8 +294,8 @@ class RUMMonitor {
         rumData.performanceMetrics.lcp = entry.startTime
         break
       case 'layout-shift':
-        const layoutShift = entry as any
-        if (!layoutShift.hadRecentInput) {
+        const layoutShift = entry as PerformanceEntry & { hadRecentInput?: boolean; value?: number }
+        if (!layoutShift.hadRecentInput && layoutShift.value !== undefined) {
           rumData.performanceMetrics.cls = (rumData.performanceMetrics.cls || 0) + layoutShift.value
         }
         break
@@ -381,7 +381,19 @@ class RUMMonitor {
    * 获取网络连接类型
    */
   private getConnectionType(): string | undefined {
-    const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+    const connection = (navigator as Navigator & {
+      connection?: { type?: string };
+      mozConnection?: { type?: string };
+      webkitConnection?: { type?: string }
+    }).connection || (navigator as Navigator & {
+      connection?: { type?: string };
+      mozConnection?: { type?: string };
+      webkitConnection?: { type?: string }
+    }).mozConnection || (navigator as Navigator & {
+      connection?: { type?: string };
+      mozConnection?: { type?: string };
+      webkitConnection?: { type?: string }
+    }).webkitConnection
     return connection?.type
   }
 
@@ -389,7 +401,19 @@ class RUMMonitor {
    * 获取有效连接类型
    */
   private getEffectiveConnectionType(): string | undefined {
-    const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+    const connection = (navigator as Navigator & {
+      connection?: { effectiveType?: string };
+      mozConnection?: { effectiveType?: string };
+      webkitConnection?: { effectiveType?: string }
+    }).connection || (navigator as Navigator & {
+      connection?: { effectiveType?: string };
+      mozConnection?: { effectiveType?: string };
+      webkitConnection?: { effectiveType?: string }
+    }).mozConnection || (navigator as Navigator & {
+      connection?: { effectiveType?: string };
+      mozConnection?: { effectiveType?: string };
+      webkitConnection?: { effectiveType?: string }
+    }).webkitConnection
     return connection?.effectiveType
   }
 
@@ -489,12 +513,12 @@ class RUMMonitor {
   /**
    * 手动记录自定义指标
    */
-  public recordCustomMetric(name: string, value: number, metadata?: Record<string, any>) {
+  public recordCustomMetric(name: string, value: number, metadata?: Record<string, unknown>) {
     const rumData = this.createBaseRUMData()
     rumData.performanceMetrics[name as keyof typeof rumData.performanceMetrics] = value
-    
+
     if (metadata) {
-      (rumData as any).customMetadata = metadata
+      (rumData as RUMData & { customMetadata?: Record<string, unknown> }).customMetadata = metadata
     }
 
     this.addToBuffer(rumData)

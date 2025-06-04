@@ -11,38 +11,60 @@ import { DataTable } from '@/components/admin/DataTable'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Plus, Edit, Trash2, Eye, Star, Package, ExternalLink } from 'lucide-react'
+import { useDataStore } from '@/stores/dataStore'
+import { useAppStore, setPageMeta, notify } from '@/stores/appStore'
+import { productService } from '@/services/dataService'
 
 export default function ProductsManagePage() {
-  const [loading, setLoading] = useState(true)
-  const [products, setProducts] = useState([])
-  const [pagination, setPagination] = useState({
-    page: 1,
-    limit: 10,
-    total: 0,
-    totalPages: 0
-  })
+  const {
+    products,
+    productsLoading,
+    productsPagination,
+    fetchProducts,
+    deleteProduct
+  } = useDataStore()
 
+  const { setGlobalLoading } = useAppStore()
+
+  // 设置页面元信息
   useEffect(() => {
-    fetchProducts()
-  }, [pagination.page])
+    setPageMeta('产品管理', [
+      { label: '管理系统', href: '/admin/dashboard' },
+      { label: '产品管理' }
+    ])
+  }, [])
 
-  const fetchProducts = async () => {
-    try {
-      setLoading(true)
-      // TODO: 实现API调用
-      // const response = await fetch(`/api/admin/products?page=${pagination.page}&limit=${pagination.limit}`)
-      // const data = await response.json()
-      
-      // 模拟数据
-      setTimeout(() => {
-        setProducts([])
-        setPagination(prev => ({ ...prev, total: 0, totalPages: 0 }))
-        setLoading(false)
-      }, 1000)
-    } catch (error) {
-      console.error('Failed to fetch products:', error)
-      setLoading(false)
+  // 加载产品数据
+  useEffect(() => {
+    fetchProducts({
+      page: 1,
+      limit: 10
+    })
+  }, [fetchProducts])
+
+  // 处理删除产品
+  const handleDelete = async (record: any) => {
+    if (confirm(`确定要删除产品"${record.name}"吗？`)) {
+      setGlobalLoading(true)
+      try {
+        const success = await deleteProduct(record.id)
+        if (success) {
+          notify.success('产品删除成功')
+        }
+      } catch (error) {
+        notify.error('删除失败', '请稍后重试')
+      } finally {
+        setGlobalLoading(false)
+      }
     }
+  }
+
+  // 处理页面变化
+  const handlePageChange = (page: number) => {
+    fetchProducts({
+      page,
+      limit: 10
+    })
   }
 
   const columns = [
@@ -121,7 +143,13 @@ export default function ProductsManagePage() {
           <Button size="sm" variant="outline" title="编辑">
             <Edit className="w-4 h-4" />
           </Button>
-          <Button size="sm" variant="outline" className="text-red-600 hover:text-red-700" title="删除">
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-red-600 hover:text-red-700"
+            title="删除"
+            onClick={() => handleDelete(record)}
+          >
             <Trash2 className="w-4 h-4" />
           </Button>
         </div>
@@ -194,9 +222,14 @@ export default function ProductsManagePage() {
       <DataTable
         columns={columns}
         data={products}
-        loading={loading}
-        pagination={pagination}
-        onPageChange={(page) => setPagination(prev => ({ ...prev, page }))}
+        loading={productsLoading}
+        pagination={productsPagination ? {
+          page: productsPagination.page,
+          limit: productsPagination.limit,
+          total: productsPagination.total,
+          totalPages: productsPagination.totalPages
+        } : undefined}
+        onPageChange={handlePageChange}
         emptyText="暂无产品数据"
         emptyDescription="点击上方按钮添加第一个产品"
       />

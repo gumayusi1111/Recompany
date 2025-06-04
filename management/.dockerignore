@@ -1,50 +1,67 @@
-# Node.js
+# 版本控制
+.git
+.gitignore
+.github
+
+# 构建输出和缓存
+.next
+out
+dist
+build
+coverage
+.swc
+
+# 依赖目录
 node_modules
+
+# 环境变量文件（避免泄露敏感信息）
+.env*
+!.env.example
+
+# 开发工具和配置
+.vscode
+.idea
+*.sublime*
+.DS_Store
+
+# 日志文件
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Next.js
-.next/
-out/
-build/
-
-# Environment files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Logs
+pnpm-debug.log*
 *.log
 
-# IDEs
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Git
-.git
-.gitignore
-
-# Documentation
-README.md
-docs/
-
-# Test files
-__tests__/
-*.test.js
-*.test.ts
-*.spec.js
-*.spec.ts
-
-# Temporary files
+# 临时文件
+*.bak
 *.tmp
 *.temp
 
-# Prisma
-prisma/migrations/
+# 测试文件
+__tests__
+*.test.js
+*.test.ts
+*.test.tsx
+*.spec.js
+*.spec.ts
+*.spec.tsx
+
+# 文档和不需要的资源
+README.md
+CHANGELOG.md
+LICENSE
+CONTRIBUTING.md
+docs
+FRAMEWORK_GUIDE.md
+
+# Docker相关
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Prisma相关
+prisma/migrations
+
+# 代码版本控制和管理文件
+.prettierrc
+.eslintrc
+.eslintignore

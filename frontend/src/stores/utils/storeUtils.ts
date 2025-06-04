@@ -132,7 +132,7 @@ export function createPageStore<T>(
 /**
  * 创建选择器工具函数
  */
-export function createSelectors<T>(store: any) {
+export function createSelectors<T>() {
   return {
     // 基础选择器
     data: (state: BasePageState<T>) => state.data,
@@ -156,22 +156,30 @@ export function createSelectors<T>(store: any) {
 /**
  * 创建Hook工具函数
  */
-export function createHooks<T>(store: any, selectors: any) {
+export function createHooks<T>(
+  store: (selector: (state: BasePageState<T>) => unknown) => unknown,
+  selectors: {
+    data: (state: BasePageState<T>) => T | null;
+    loading: (state: BasePageState<T>) => boolean;
+    error: (state: BasePageState<T>) => string | null;
+    isReady: (state: BasePageState<T>) => boolean;
+  }
+) {
   return {
     // 基础hooks
-    useData: () => store(selectors.data),
-    useLoading: () => store(selectors.loading),
-    useError: () => store(selectors.error),
-    useReady: () => store(selectors.isReady),
+    useData: () => store(selectors.data) as T | null,
+    useLoading: () => store(selectors.loading) as boolean,
+    useError: () => store(selectors.error) as string | null,
+    useReady: () => store(selectors.isReady) as boolean,
     
     // 操作hooks
     useActions: () => {
-      const fetchData = store((state: BasePageState<T>) => state.fetchData)
-      const clearError = store((state: BasePageState<T>) => state.clearError)
-      const reset = store((state: BasePageState<T>) => state.reset)
-      const updateData = store((state: BasePageState<T>) => state.updateData)
-      const invalidateCache = store((state: BasePageState<T>) => state.invalidateCache)
-      
+      const fetchData = store((state: BasePageState<T>) => state.fetchData) as () => Promise<void>
+      const clearError = store((state: BasePageState<T>) => state.clearError) as () => void
+      const reset = store((state: BasePageState<T>) => state.reset) as () => void
+      const updateData = store((state: BasePageState<T>) => state.updateData) as (data: Partial<T>) => void
+      const invalidateCache = store((state: BasePageState<T>) => state.invalidateCache) as () => void
+
       return {
         fetchData,
         clearError,
@@ -187,7 +195,7 @@ export function createHooks<T>(store: any, selectors: any) {
  * 批量状态更新工具
  */
 export function batchUpdate<T>(
-  store: any,
+  store: { setState: (updater: (state: T) => T) => void },
   updates: Array<(state: T) => Partial<T> | void>
 ) {
   store.setState((state: T) => {
@@ -211,7 +219,7 @@ export function createPersistConfig(key: string) {
   return {
     name: key,
     storage: typeof window !== 'undefined' ? localStorage : undefined,
-    partialize: (state: any) => ({
+    partialize: (state: { data?: unknown; lastFetchTime?: number }) => ({
       // 只持久化必要的状态
       data: state.data,
       lastFetchTime: state.lastFetchTime
